@@ -25,26 +25,40 @@ const COORDINATOR_WHATSAPP = '918089124307';
 export const buildWhatsAppUrl = (data: RegistrationFormData | null, regId: string) => {
   if (!data) return `https://wa.me/${COORDINATOR_WHATSAPP}`;
   const isMinor = Number(data.age) < 18;
-  const lines = [
-    '🎙️ *MYSB Cohort 1 — Registration Application*',
-    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
-    `👤 *Full Name:* ${data.fullName}`,
-    `🎂 *Age:* ${data.age}`,
-    `📞 *Phone:* ${data.countryCode || '+91'} ${data.phone}`,
-    `✉️ *Email:* ${data.email}`,
-    `📍 *City / Country:* ${data.cityCountry}`,
-    `🗣️ *Preferred Language:* ${data.preferredLanguage}`,
+  const sections: string[] = [
+    `*MYSB COHORT 1 — ENROLLMENT APPLICATION*`,
+    `Ref ID: *${regId}*`,
+    `----------------------------------------`,
+    `Hello Team,`,
+    ``,
+    `I have registered for the upcoming MYSB 8-Week Speech Practice Program. Please review my details below:`,
+    ``,
+    `*APPLICANT PROFILE*`,
+    `• *Full Name:* ${data.fullName.trim()}`,
+    `• *Age:* ${data.age}`,
+    `• *Phone:* ${data.countryCode || '+91'} ${data.phone.trim()}`,
+    `• *Email:* ${data.email.trim()}`,
+    `• *Location:* ${data.cityCountry.trim()}`,
+    `• *Preferred Language:* ${data.preferredLanguage || 'English'}`,
     ...(isMinor ? [
-      `🛡️ *Guardian Name:* ${data.guardianName || 'N/A'}`,
-      `📱 *Guardian Phone:* ${data.guardianPhone || 'N/A'}`
+      `• *Parent/Guardian:* ${data.guardianName || 'N/A'}`,
+      `• *Guardian Contact:* ${data.guardianPhone || 'N/A'}`
     ] : []),
-    ...(data.notes ? [`📝 *Notes / Goals:* ${data.notes}`] : []),
-    `💳 *Program Fee:* ₹199 (8-Week Program)`,
-    `🆔 *Registration ID:* ${regId}`,
-    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
-    'Hello! I just submitted my registration on the MYSB website. Please confirm my seat.'
+    ...(data.notes && data.notes.trim() ? [
+      ``,
+      `*GOALS & NOTES*`,
+      `"${data.notes.trim()}"`
+    ] : []),
+    ``,
+    `*PROGRAM DETAILS*`,
+    `• *Cohort:* Cohort 1 (Strict 10-Person Circle)`,
+    `• *Program Fee:* ₹199`,
+    `----------------------------------------`,
+    `Please confirm my seat reservation and share the next steps and orientation schedule.`,
+    ``,
+    `Thank you!`
   ];
-  return `https://wa.me/${COORDINATOR_WHATSAPP}?text=${encodeURIComponent(lines.join('\n'))}`;
+  return `https://wa.me/${COORDINATOR_WHATSAPP}?text=${encodeURIComponent(sections.join('\n'))}`;
 };
 
 export const Registration: React.FC<RegistrationProps> = ({
