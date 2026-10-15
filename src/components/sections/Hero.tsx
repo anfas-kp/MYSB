@@ -28,9 +28,6 @@ export const Hero: React.FC<HeroProps> = (_props) => {
   const artworkY = useTransform(scrollYProgress, [0, 1], [0, prefersReduced ? 0 : -32]);
   const artworkScale = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 1 : 1.03]);
 
-  // Ambient lighting drift
-  const ambientOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.2]);
-
   // Staggered load animation variants with refined studio easing
   const lineVariants = {
     hidden: { opacity: 0, y: prefersReduced ? 0 : 20 },

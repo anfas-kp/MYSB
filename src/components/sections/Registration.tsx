@@ -35,7 +35,7 @@ export const Registration: React.FC<RegistrationProps> = ({
     register,
     handleSubmit,
     watch,
-    formState: { errors, touchedFields },
+    formState: { errors },
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -57,8 +57,6 @@ export const Registration: React.FC<RegistrationProps> = ({
 
   const watchAge = watch('age');
   const isUnder18 = watchAge ? Number(watchAge) < 18 : false;
-
-  const filledSeatsCount = totalSeats - seatsRemaining;
 
   const onSubmit = async (data: RegistrationFormData) => {
     setIsSubmitting(true);

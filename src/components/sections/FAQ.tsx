@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Container } from '../ui/Container';
 import { Eyebrow } from '../ui/Eyebrow';
 import { Heading } from '../ui/Heading';

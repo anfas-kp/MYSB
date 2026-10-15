@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 import { Container } from '../ui/Container';
-import { Sparkles, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { SITE_CONTENT, StatementLine } from '../../content/content';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { cn } from '../../lib/utils';

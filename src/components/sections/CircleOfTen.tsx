@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, HeartHandshake, Mic2, Shield, Sparkles } from 'lucide-react';
+import { Users, HeartHandshake, Mic2, Shield } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { Eyebrow } from '../ui/Eyebrow';
 import { Heading } from '../ui/Heading';

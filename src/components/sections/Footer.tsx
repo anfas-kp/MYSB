@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, MessageCircle, Instagram, Shield, Heart } from 'lucide-react';
+import { Mail, MessageCircle, Instagram, Heart } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { SITE_CONTENT } from '../../content/content';
 import { trackEvent } from '../../lib/analytics';

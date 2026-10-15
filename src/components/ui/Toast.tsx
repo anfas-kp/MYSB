@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
-import { cn } from '../../lib/utils';
 
 export interface ToastProps {
   isOpen: boolean;

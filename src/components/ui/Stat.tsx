@@ -34,7 +34,6 @@ export const Stat: React.FC<StatProps> = ({
       return;
     }
 
-    let start = 0;
     const startTime = performance.now();
 
     const updateCount = (currentTime: number) => {
