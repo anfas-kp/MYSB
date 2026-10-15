@@ -117,7 +117,8 @@ module.exports = async function handler(req, res) {
         fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(registrationRecord)
+          body: JSON.stringify(registrationRecord),
+          redirect: 'follow'
         }).catch(err => console.error('[Google Sheets Error]:', err))
       );
     }
@@ -206,7 +207,7 @@ module.exports = async function handler(req, res) {
             <div style="font-family: sans-serif; line-height: 1.6; color: #1F2A37; max-width: 600px; padding: 24px; background: #FBF6EE; border-radius: 16px;">
               <h2 style="color: #0F766E;">Welcome to MYSB, ${registrationRecord.fullName.split(' ')[0]}! 🌱</h2>
               <p>Thank you for taking this step. We've safely received your interest registration for <strong>MYSB Cohort 1</strong>.</p>
-              <p>Our operations team (led by Anfas KP and our coordinators) is reviewing cohort allocations and will reach out with your orientation details and schedule.</p>
+              <p>Our team is reviewing cohort allocations and will reach out with your orientation details and schedule.</p>
               
               <div style="margin: 24px 0; padding: 20px; background: #FFFFFF; border-radius: 12px; border: 1px solid #E9E1D3; text-align: center;">
                 <h3 style="margin-top:0; color: #1F2A37;">Join our WhatsApp Group</h3>
