@@ -47,13 +47,16 @@ function doPost(e) {
     
     var status = data.isWaitlist ? "Waitlist" : "Pending Review";
     
+    // Prepend single quote (') so Google Sheets treats "+91..." as text instead of a formula
+    var safePhone = data.phone ? ("'" + data.phone.toString().trim()) : "";
+    
     // Append the row matching the exact 10 columns
     sheet.appendRow([
       data.id || "",
       timeStamp,
       dateString,
       data.fullName || "",
-      data.phone || "",
+      safePhone,
       data.email || "",
       data.age || "",
       data.cityCountry || "",
