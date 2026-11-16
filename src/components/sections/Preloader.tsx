@@ -24,7 +24,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.02 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-teal-950 text-cream-100 select-none"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0B0B0B] text-white select-none"
         >
           <div className="relative flex flex-col items-center">
             {/* Animated SVG Waveform Draw */}
@@ -36,8 +36,8 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
             >
               <motion.path
                 d="M 10 40 Q 30 10, 50 40 T 90 40 T 130 40 T 170 40 T 210 40 T 230 40"
-                stroke="#7FE0CF"
-                strokeWidth="3"
+                stroke="#6EC000"
+                strokeWidth="3.5"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
@@ -45,11 +45,11 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
               />
               <motion.path
                 d="M 20 40 Q 40 60, 70 40 T 110 40 T 150 40 T 190 40 T 220 40"
-                stroke="#FF7A5C"
-                strokeWidth="2"
+                stroke="#8B5CF6"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.7 }}
+                animate={{ pathLength: 1, opacity: 0.8 }}
                 transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               />
             </svg>
@@ -58,11 +58,11 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
-              className="mt-3 flex items-center gap-2 font-mono text-xs tracking-widest text-mint-400 uppercase"
+              className="mt-3 flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-slate-300"
             >
-              <span>MYSB</span>
-              <span className="w-1 h-1 rounded-full bg-coral-500" />
-              <span>Make Your Speech Better</span>
+              <span className="font-bold text-[#6EC000]">SPEAKUP</span>
+              <span className="w-1 h-1 rounded-full bg-violet-400" />
+              <span>find your voice · own your words</span>
             </motion.div>
           </div>
         </motion.div>

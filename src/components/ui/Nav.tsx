@@ -2,250 +2,209 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
 import { Button } from './Button';
-import { Container } from './Container';
 import { SITE_CONTENT } from '../../content/content';
 import { cn } from '../../lib/utils';
 import { trackEvent } from '../../lib/analytics';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import speakupLogo from '../../assets/01_speakup-logo-primary.png';
 
 export interface NavProps {}
 
 export const Nav: React.FC<NavProps> = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('');
+  const [activeSection, setActiveSection]   = useState<string>('');
   const prefersReduced = useReducedMotion();
 
-  // Precision Reading Progress Bar across the top
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 280,
-    damping: 30,
-    restDelta: 0.001,
-  });
+  const scaleX = useSpring(scrollYProgress, { stiffness: 280, damping: 30, restDelta: 0.001 });
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-
-      // Simple, high-performance scroll spy for active navigation item
-      const sections = ['about', 'daily-rhythm', 'features', 'events', 'faq'];
-      const scrollPos = window.scrollY + 140;
-
+    const onScroll = () => {
+      const sections = ['problem', 'daily-rhythm', 'features', 'journey', 'pricing', 'faq'];
+      const pos = window.scrollY + 160;
       for (let i = sections.length - 1; i >= 0; i--) {
-        const sec = document.getElementById(sections[i]);
-        if (sec && sec.offsetTop <= scrollPos) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.offsetTop <= pos) {
           setActiveSection(`#${sections[i]}`);
           return;
         }
       }
-      if (window.scrollY < 200) {
-        setActiveSection('');
-      }
+      if (window.scrollY < 200) setActiveSection('');
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [mobileMenuOpen]);
 
-  const handleLinkClick = (href: string, label: string) => {
+  const handleLink = (href: string, label: string) => {
     setMobileMenuOpen(false);
     trackEvent('cta_click', { placement: 'nav', link_target: href, link_label: label });
   };
 
   return (
     <>
-      {/* Precision Scroll Progress Line across the top of the viewport */}
+      {/* Reading progress bar */}
       {!prefersReduced && (
         <motion.div
           style={{ scaleX }}
-          className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-teal-800 via-teal-600 to-coral-500 origin-left z-[60] pointer-events-none shadow-[0_1px_6px_rgba(15,118,110,0.3)]"
+          className="fixed left-0 right-0 top-0 z-[60] h-[2.5px] origin-left bg-gradient-to-r from-[#6EC000] via-[#6D28D9] to-[#5B21B6] pointer-events-none"
           aria-hidden="true"
         />
       )}
 
-      <header
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          isScrolled
-            ? 'py-2.5 bg-cream-100/85 dark:bg-teal-950/85 backdrop-blur-xl border-b border-ink-900/[0.07] dark:border-cream-100/10 shadow-subtle'
-            : 'py-4 sm:py-5 bg-transparent'
-        )}
-      >
-        <Container size="wide">
-          <nav className="flex items-center justify-between gap-4" aria-label="Main Navigation">
-            {/* Brand Logo */}
+      {/* ── 1. FLOATING GLASS CAPSULE NAVBAR ──────────────────────────────── */}
+      <header className="fixed left-0 right-0 top-0 z-50 pointer-events-none pt-4 sm:pt-6 px-4 sm:px-6 lg:px-8 transition-all duration-300">
+        <div
+          className={cn(
+            'mx-auto flex max-w-[1380px] w-full items-center justify-between',
+            'px-5 sm:px-7 lg:px-8 py-3 sm:py-3.5',
+            'rounded-full bg-white/96 backdrop-blur-[24px]',
+            'border border-white/85 shadow-[0_16px_40px_rgba(109,40,217,0.08),0_2px_10px_rgba(0,0,0,0.03)]',
+            'pointer-events-auto transition-all duration-300'
+          )}
+          style={{ minHeight: '74px' }}
+        >
+          {/* LEFT: Logo + Thin Vertical Separator */}
+          <div className="flex items-center gap-4 sm:gap-6">
             <a
               href="#"
-              onClick={() => handleLinkClick('#', 'Logo Home')}
-              className="flex items-center gap-2.5 group focus-visible:ring-2 focus-visible:ring-teal-600 rounded-xl"
-              aria-label="MYSB Home"
+              onClick={() => handleLink('#', 'Logo')}
+              className="flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9] rounded-lg"
+              aria-label="SPEAKUP Home"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-teal-900 dark:bg-mint-400 text-cream-100 dark:text-teal-950 flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm border border-teal-800/40">
-                <svg
-                  className="w-5 h-5 transition-transform group-hover:rotate-6 text-mint-400 dark:text-teal-950"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                  <line x1="12" y1="19" x2="12" y2="22"></line>
-                </svg>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-display font-extrabold text-xl sm:text-2xl tracking-tighter text-ink-900 dark:text-cream-50 leading-none">
-                    MYSB
-                  </span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-coral-500" />
-                </div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-ink-500 dark:text-cream-400 leading-none mt-0.5">
-                  Speech Practice
-                </span>
-              </div>
+              <img src={speakupLogo} alt="SPEAKUP" className="h-7 w-auto sm:h-8 lg:h-8.5 object-contain" />
             </a>
 
-            {/* Desktop Navigation Links with Live Active Pill Indicator */}
-            <div className="hidden lg:flex items-center gap-1 px-3 py-1.5 rounded-full bg-white border border-ink-900/[0.1] shadow-sm">
-              {SITE_CONTENT.nav.links.map((link) => {
-                const isActive = activeSection === link.href;
-                return (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => handleLinkClick(link.href, link.label)}
-                    className={cn(
-                      'relative px-3.5 py-1.5 rounded-full text-xs font-semibold transition-colors duration-150 active:scale-[0.97]',
-                      isActive
-                        ? 'text-cream-50 dark:text-teal-950'
-                        : 'text-ink-700 dark:text-cream-200 hover:text-teal-900 dark:hover:text-mint-300'
-                    )}
-                  >
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeNavPill"
-                        className="absolute inset-0 rounded-full bg-teal-900 dark:bg-mint-400 shadow-2xs -z-10"
-                        transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-                      />
-                    )}
-                    <span className="relative z-10">{link.label}</span>
-                  </a>
-                );
-              })}
-            </div>
+            {/* Thin vertical separator line */}
+            <div className="hidden lg:block h-6 w-[1px] bg-slate-200/90" aria-hidden="true" />
+          </div>
 
-            {/* Actions: Live Cohort Badge, Join CTA & Mobile Menu */}
-            <div className="flex items-center gap-2.5 sm:gap-3">
-              {/* Cohort Seat Pill */}
-              <a
-                href="#register"
-                className="hidden xl:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-600/15 text-[11px] font-mono font-bold text-teal-900 hover:bg-teal-500/15 transition-colors active:scale-[0.97]"
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-600 flex-shrink-0 animate-live-pulse" />
-                <span>Cohort 01 · Applications Open</span>
-              </a>
-
-              <Button
-                href="#register"
-                variant="coral"
-                size="sm"
-                trackingName="nav_join_cta"
-                className="hidden sm:inline-flex shadow-sm"
-              >
-                {SITE_CONTENT.nav.primaryCta}
-              </Button>
-
-              {/* Mobile Hamburger Toggle */}
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-                className="lg:hidden w-10 h-10 rounded-full border border-ink-900/10 dark:border-cream-100/15 bg-white/70 dark:bg-teal-900/70 backdrop-blur-md flex items-center justify-center text-ink-900 dark:text-cream-50 hover:bg-white active:scale-[0.94] transition-all"
-              >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
+          {/* CENTER: Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
+            {SITE_CONTENT.nav.links.map(link => {
+              const active = activeSection === link.href;
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => handleLink(link.href, link.label)}
+                  className={cn(
+                    'relative px-3.5 py-1.5 rounded-full text-[13.5px] font-medium transition-colors duration-150',
+                    active
+                      ? 'text-[#6D28D9] font-semibold'
+                      : 'text-[#536178] hover:text-[#111111]'
+                  )}
+                >
+                  {active && !prefersReduced && (
+                    <motion.div
+                      layoutId="navCapsulePill"
+                      className="absolute inset-0 rounded-full bg-[#F5F0FF]"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10">{link.label}</span>
+                </a>
+              );
+            })}
           </nav>
-        </Container>
+
+          {/* RIGHT: Cohort 01 Pill + Apply Now CTA + Mobile Toggle */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Cohort 01 · 15 Seats Only pill */}
+            <a
+              href="#register"
+              className="hidden xl:inline-flex items-center gap-2 rounded-full border border-[#6D28D9]/20 bg-[#F5F0FF] px-3.5 py-1.5 text-[11px] font-mono font-bold text-[#6D28D9] transition-colors hover:bg-[#EDE9FE] active:scale-[0.97]"
+            >
+              <span className="relative flex h-[7px] w-[7px]">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#6EC000] opacity-80" />
+                <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-[#6EC000]" />
+              </span>
+              Cohort 01 · 15 Seats Only
+            </a>
+
+            {/* Lime-green Apply Now pill button */}
+            <Button
+              href="#register"
+              variant="primary"
+              size="sm"
+              trackingName="nav_apply"
+              icon={<ArrowRight className="w-3.5 h-3.5 text-black" />}
+              className="hidden sm:inline-flex rounded-full px-5 py-2.5 text-[13.5px] font-bold shadow-[0_4px_16px_rgba(110,192,0,0.36)] hover:shadow-[0_6px_20px_rgba(110,192,0,0.45)]"
+            >
+              Apply now
+            </Button>
+
+            {/* Mobile hamburger */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(o => !o)}
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              className="lg:hidden h-10 w-10 rounded-full border border-slate-200 bg-white flex items-center justify-center text-[#111111] shadow-2xs transition-all hover:bg-slate-50 active:scale-[0.94]"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
       </header>
 
-      {/* Premium Editorial Mobile Drawer */}
+      {/* Mobile drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.98 }}
+            initial={{ opacity: 0, y: -16, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -16, scale: 0.98 }}
-            transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
-            className="lg:hidden fixed inset-0 z-40 bg-cream-100/98 dark:bg-teal-950/98 backdrop-blur-2xl flex flex-col justify-between pt-24 pb-[calc(2rem+env(safe-area-inset-bottom,0px))] px-6 sm:px-8 overflow-y-auto min-h-[100dvh] max-h-[100dvh]"
+            exit={{ opacity: 0, y: -12, scale: 0.98 }}
+            transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
+            className="fixed inset-0 z-40 flex flex-col justify-between overflow-y-auto bg-white/98 px-6 pb-10 pt-28 backdrop-blur-2xl min-h-[100dvh]"
           >
-            <div className="flex flex-col space-y-4">
-              <div className="pb-3 border-b border-ink-900/10 dark:border-cream-100/10 flex items-center justify-between">
-                <span className="text-xs font-mono uppercase tracking-widest text-ink-500 dark:text-cream-400">
-                  Navigation
-                </span>
-                <span className="text-xs font-mono text-teal-700 dark:text-mint-400">
-                  Cohort 1 · 10 Seats
-                </span>
+            <div className="space-y-1">
+              <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+                <span className="font-mono text-xs uppercase tracking-widest text-[#536178]">Navigation</span>
+                <span className="font-mono text-xs font-bold text-[#6D28D9]">Cohort 01 · 15 Seats</span>
               </div>
-
-              {SITE_CONTENT.nav.links.map((link, index) => (
+              {SITE_CONTENT.nav.links.map((link, i) => (
                 <motion.a
                   key={link.href}
                   href={link.href}
-                  initial={{ opacity: 0, x: -12 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.035, duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
-                  onClick={() => handleLinkClick(link.href, link.label)}
-                  className="flex items-center justify-between py-3 text-xl sm:text-2xl font-display font-semibold tracking-tight text-ink-900 dark:text-cream-50 hover:text-teal-700 dark:hover:text-mint-400 border-b border-ink-900/5 dark:border-cream-100/5 transition-colors active:scale-[0.98]"
+                  transition={{ delay: i * 0.03, duration: 0.22 }}
+                  onClick={() => handleLink(link.href, link.label)}
+                  className="flex items-center justify-between border-b border-slate-50 py-3.5 text-2xl font-semibold text-[#111111] hover:text-[#6D28D9] transition-colors"
                 >
                   <span>{link.label}</span>
-                  <ArrowRight className="w-4 h-4 text-ink-400 dark:text-cream-400" />
+                  <ArrowRight className="h-4 w-4 text-slate-300" />
                 </motion.a>
               ))}
             </div>
 
-            <div className="mt-8 pt-6 border-t border-ink-900/10 dark:border-cream-100/10 space-y-3">
+            <div className="mt-8 space-y-3 border-t border-slate-100 pt-6">
               <Button
                 href="#register"
-                variant="coral"
+                variant="primary"
                 size="lg"
-                className="w-full text-center"
+                className="w-full rounded-full text-center"
                 onClick={() => setMobileMenuOpen(false)}
-                trackingName="mobile_drawer_join"
+                trackingName="mobile_apply"
               >
-                Join the Program →
+                Apply for Cohort 01 →
               </Button>
-
               <a
                 href={SITE_CONTENT.brand.whatsappInviteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent('whatsapp_click', { placement: 'mobile_drawer' })}
-                className="flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-full border border-teal-600/30 text-teal-800 dark:text-mint-300 font-semibold text-sm hover:bg-teal-50 dark:hover:bg-teal-900/30 active:scale-[0.98] transition-all text-center"
+                className="flex items-center justify-center gap-2 w-full rounded-full border border-[#6D28D9]/25 py-3.5 text-sm font-semibold text-[#6D28D9] hover:bg-[#F5F0FF] transition-all"
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>Join Community WhatsApp</span>
+                <MessageCircle className="h-4 w-4" />
+                Join Community WhatsApp
               </a>
-
-              <p className="text-xs text-center text-ink-500 dark:text-cream-400 pt-2 font-mono">
+              <p className="pt-1 text-center font-mono text-[11px] text-[#536178]">
                 {SITE_CONTENT.brand.fullName} · 8-week speech practice
               </p>
             </div>

@@ -8,7 +8,7 @@ export interface JourneyStop {
   description: string;
   keyTakeaway: string;
   mediaPlaceholderCaption: string;
-  waveformSmoothness: number; // 0 (fragmented) to 1 (pure smooth)
+  waveformSmoothness: number;
 }
 
 export interface DayStep {
@@ -43,18 +43,6 @@ export interface TeamMember {
   imagePlaceholderCaption: string;
 }
 
-export interface Testimonial {
-  id: string;
-  name: string;
-  age: number;
-  location: string;
-  cohort: string;
-  quote: string;
-  voiceNoteDuration?: string;
-  highlight: string;
-  consentConfirmed: boolean;
-}
-
 export interface FAQItem {
   id: string;
   category: 'Program & Schedule' | 'Clinical & Medical' | 'Participation & Privacy';
@@ -76,492 +64,486 @@ export interface OfflineGatheringData {
   footnoteRight: string;
 }
 
-export interface OfflineEventData {
-  id: string;
-  type: string;
-  title: string;
-  date: string;
-  venue: string;
-  city: string;
-  description: string;
-  whatToExpect: string[];
-  isHighlighted: boolean;
-}
-
 export interface StatementLine {
   id: string;
   text: string;
   accentPhrase: string;
 }
 
-export interface StatementData {
-  eyebrow: string;
-  lead: string;
-  lines: StatementLine[];
-  footnote: string;
-}
-
 export const SITE_CONTENT = {
   brand: {
-    name: 'MYSB',
-    fullName: 'Make Your Speech Better',
-    tagline: 'Steadier every week.',
-    heroHeadline: 'Find your voice, one day at a time.',
-    heroSubheadline: 'An 8-week, mostly online guided speech practice program for young people aged 15 to 30 who stammer. Up to 10 seats per cohort.',
+    name: 'SPEAKUP',
+    fullName: 'SPEAKUP by ZLAQA AI Labs',
+    tagline: 'find your voice · own your words',
+    heroHeadline: 'Find your voice. Own your words.',
+    heroSubheadline: 'An 8-week speech program for young people who stammer. Ages 15 to 30.',
+    cohortKicker: 'Cohort 01 starts 23 November 2026. Only 15 seats.',
     quickPills: [
-      '10 seats only',
+      '15 seats only',
       '8 weeks',
       'Ages 15–30',
-      'Full Zlaqa App Access',
-      '₹199 Program Fee'
+      'Live SLP Guidance',
+      'Zlaqa AI Voice App',
+      '1 In-Person Meetup'
     ],
-    disclaimer: 'MYSB is a peer practice and speech confidence initiative, not a medical or clinical therapy clinic. We do not promise a "cure" or guaranteed outcomes.',
-    brochurePdfUrl: '/assets/MYSB_Program_Brochure_2026.pdf',
-    posterPdfUrl: '/assets/MYSB_Community_Poster_2026.pdf',
-    whatsappInviteUrl: 'https://chat.whatsapp.com/[WHATSAPP_LINK]',
-    videoEmbedUrl: 'https://www.youtube-nocookie.com/embed/[VIDEO_URL]?rel=0',
+    disclaimer: 'SPEAKUP is a guided practice program led by Speech-Language Pathologists. We do not promise a cure. We promise structure, support and steady progress. Not a replacement for individual clinical therapy.',
+    whatsappInviteUrl: 'https://wa.me/918089124307',
+    videoEmbedUrl: '',
+    coordinatorPhone: '+91 80891 24307',
+    contactEmail: 'contact@zlaqa.com',
   },
 
   nav: {
     links: [
-      { label: 'About', href: '#about' },
-      { label: 'A Day in MYSB', href: '#daily-rhythm' },
+      { label: 'Problem', href: '#problem' },
       { label: 'What You Get', href: '#features' },
-      { label: 'Events', href: '#events' },
+      { label: 'A Day in SPEAKUP', href: '#daily-rhythm' },
+      { label: '8-Week Journey', href: '#journey' },
+      { label: 'Pricing', href: '#pricing' },
       { label: 'FAQ', href: '#faq' },
     ],
-    primaryCta: 'Join the Program',
+    primaryCta: 'Apply now',
   },
 
   hero: {
-    badge: 'Cohort 1 Now Open · Slots Filling Fast',
-    headline: 'Find your voice, one day at a time.',
-    subtext: 'Daily 20-minute guided practice with full access to the Zlaqa app, weekly 1-on-1 Speech Language Pathologist reviews, and a tight-knit circle of 10 people who understand exactly what it feels like to stammer.',
-    primaryCta: 'Join the Program',
-    secondaryCta: 'Watch How It Works',
-    socialProof: '₹199 Program Fee · 10 Seats Maximum · Confidential',
+    badge: 'Cohort 01 starts 23 November 2026 · Only 15 seats',
+    headline: 'SPEAKUP',
+    subheadline: 'Find your voice. Own your words.',
+    subtext: 'An 8-week speech program for young people who stammer. Ages 15 to 30. Daily practice in the Zlaqa app, weekly live sessions with Speech-Language Pathologists, and a safe community that gets it.',
+    primaryCta: 'Apply now',
+    secondaryCta: 'How it works',
+    socialProof: 'Mindi Thudangam members: ₹339 · Everyone else: ₹449 · Save ₹199 with referral',
   },
 
   statement: {
-    eyebrow: 'Our Philosophy',
-    lead: 'Stammering is not something you have to hide or fight alone.',
+    eyebrow: 'The Reality',
+    lead: 'You are not the problem. Silence is.',
     lines: [
       {
         id: 'line-1',
-        text: 'MYSB is an 8-week space built on patience, warmth, and kindness,',
-        accentPhrase: 'patience, warmth, and kindness',
+        text: 'You know the answer. You know the words.',
+        accentPhrase: 'You know the words',
       },
       {
         id: 'line-2',
-        text: 'grounded in daily repetition and gentle clinical guidance.',
-        accentPhrase: 'gentle clinical guidance',
+        text: 'Then the moment comes, and your voice goes quiet.',
+        accentPhrase: 'your voice goes quiet',
       },
       {
         id: 'line-3',
-        text: 'A tight-knit circle of young people who truly understand stammering,',
-        accentPhrase: 'who truly understand stammering',
+        text: 'So you skip the introduction. You swap the word.',
+        accentPhrase: 'You swap the word',
       },
       {
         id: 'line-4',
-        text: 'practicing daily audio recordings together in the Zlaqa app,',
-        accentPhrase: 'Zlaqa app',
+        text: 'You let someone else order for you.',
+        accentPhrase: 'someone else order for you',
       },
       {
         id: 'line-5',
-        text: 'gathering each day on Google Meet with zero pressure to be fluent,',
-        accentPhrase: 'zero pressure to be fluent',
+        text: 'SPEAKUP is built to end that. Not by pretending you don’t stammer,',
+        accentPhrase: 'SPEAKUP is built to end that',
       },
       {
         id: 'line-6',
-        text: 'and building steady, unapologetic confidence in their everyday voice.',
-        accentPhrase: 'steady, unapologetic confidence',
+        text: 'but by giving you tools, practice, experts and people, so you can speak on your own terms.',
+        accentPhrase: 'speak on your own terms',
       },
     ],
-    footnote: 'Steadier every week. Never rushed, never judged.'
+    footnote: 'You will not do it alone.'
+  },
+
+  whoItsFor: {
+    eyebrow: 'Who It Is For',
+    headline: 'Built for you if:',
+    badge: 'Small cohort. 10 to 15 people. Everyone is heard.',
+    criteria: [
+      { text: 'You are 15 to 30 years old' },
+      { text: 'You stammer, or speaking with fluency and confidence is hard' },
+      { text: 'You can give 20 minutes a day' },
+      { text: 'You want to be around people who get it' },
+    ],
+  },
+
+  featuresBento: {
+    eyebrow: 'What You Get',
+    headline: 'Everything you need. Nothing you don’t.',
+    subheadline: 'A comprehensive, structured 8-week system designed for steady progress without overwhelm.',
+    items: [
+      {
+        id: 'bento-1',
+        span: 'col-span-12 md:col-span-6 lg:col-span-8',
+        badge: 'Clinical Excellence',
+        title: 'Weekly Live SLP Sessions',
+        description: 'Live interactive sessions with certified Speech-Language Pathologists. Real guidance, personalized techniques, and constructive feedback.',
+        visualType: 'slp-tag',
+        extraMeta: '1-on-1 & cohort clinical coaching'
+      },
+      {
+        id: 'bento-2',
+        span: 'col-span-12 md:col-span-6 lg:col-span-4',
+        badge: 'Zlaqa AI App',
+        title: '10 Mins Daily in App',
+        description: 'Guided AI voice practice and targeted speech exercises in the Zlaqa app to build muscle memory.',
+        visualType: 'voice-bars',
+        extraMeta: 'Included with program'
+      },
+      {
+        id: 'bento-3',
+        span: 'col-span-12 lg:col-span-4',
+        badge: 'Safe Peer Space',
+        title: '10 Mins Daily Group Meet',
+        description: 'Your cohort, together. A low-pressure space to speak freely, practice with peers, with zero judgement.',
+        visualType: 'waveform',
+        extraMeta: 'Mon to Sat on Google Meet'
+      },
+      {
+        id: 'bento-4',
+        span: 'col-span-12 md:col-span-6 lg:col-span-4',
+        badge: 'Guest Series',
+        title: '2 to 3 Expert Talks',
+        description: 'Exclusive sessions with leading experts on speech mechanics, voice projection, psychology, and confidence.',
+        visualType: 'presentation',
+        extraMeta: 'Interactive guest masterclasses'
+      },
+      {
+        id: 'bento-5',
+        span: 'col-span-12 md:col-span-6 lg:col-span-4',
+        badge: 'In-Person Meetup',
+        title: '1 In-Person Meetup',
+        description: 'A half-day offline gathering in the first month. Meet your therapists and your cohort face to face.',
+        visualType: 'offline-chip',
+        extraMeta: 'Optional but highly encouraged'
+      },
+      {
+        id: 'bento-6',
+        span: 'col-span-12 md:col-span-6 lg:col-span-6',
+        badge: 'Measurable Outcomes',
+        title: 'Progress You Can See',
+        description: 'Baseline assessment on Day 1, mid-point review at Week 4, and final evaluation at Week 8 with written diagnostic feedback.',
+        visualType: 'slp-tag',
+        extraMeta: 'Baseline, mid-point & final report'
+      },
+      {
+        id: 'bento-7',
+        span: 'col-span-12 md:col-span-6 lg:col-span-6',
+        badge: 'Lifelong Network',
+        title: 'A Community That Stays',
+        description: 'Your cohort doesn’t vanish after week 8. Stay connected with your peers, alumni network, and ongoing community channels.',
+        visualType: 'waveform',
+        extraMeta: 'Permanent alumni network'
+      }
+    ] as BentoItem[],
+  },
+
+  dailyRhythm: {
+    eyebrow: 'A Day in SPEAKUP',
+    headline: '20 minutes. That’s all we ask.',
+    subheadline: 'Monday to Saturday. Sunday is rest and voice recovery.',
+    steps: [
+      {
+        id: 'step-1',
+        timeEstimate: '10 Min',
+        title: 'Zlaqa App Practice',
+        tagline: 'Breathe. Practice. Speak.',
+        description: 'Open the Zlaqa app. Follow guided diaphragmatic breathing, speech rhythm exercises, and recorded voice drills.',
+        iconName: 'Sparkles',
+        highlightDetails: ['Diaphragmatic pacing', 'Gentle vocal onset', 'Self-evaluation']
+      },
+      {
+        id: 'step-2',
+        timeEstimate: '10 Min',
+        title: 'Daily Group Meet',
+        tagline: 'Say something. Hear someone else say something.',
+        description: 'Jump on Google Meet with your cohort of 15. Share thoughts, practice feared words, and build conversational comfort in a zero-shame zone.',
+        iconName: 'Users',
+        highlightDetails: ['Zero pressure to be fluent', 'Listen & speak at your pace', 'Safe cohort bond']
+      },
+      {
+        id: 'step-rest',
+        timeEstimate: 'Full Day',
+        title: 'Sunday Rest Day',
+        tagline: 'Rest & Recharge · Every Week',
+        description: 'No recordings, no meetings. Rest your voice, spend time doing what you love, and let motor habits integrate naturally.',
+        iconName: 'Coffee',
+        isRest: true,
+        highlightDetails: ['Zero required tasks', 'Voice rest', 'Fresh start every Monday']
+      }
+    ] as DayStep[],
   },
 
   journey: {
-    eyebrow: '8-Week Curriculum',
-    headline: 'The journey from hesitant to steady.',
-    subheadline: 'A structured progression designed around muscle memory, desensitization, and real-life speaking confidence.',
+    eyebrow: 'Curriculum Roadmap',
+    headline: 'Eight weeks. One steady climb.',
+    subheadline: 'Led step-by-step by Speech-Language Pathologists from baseline assessment to public speech confidence.',
     stops: [
+      {
+        id: 'stop-0',
+        stepNumber: '00',
+        badge: 'Orientation',
+        title: 'Meet Team & Baseline Assessment',
+        duration: 'Sat 21 Nov · Online',
+        description: 'Meet your therapists and fellow cohort members. Conduct your baseline speech assessment and calibrate your goals.',
+        keyTakeaway: 'Understanding your baseline speech patterns without judgement.',
+        mediaPlaceholderCaption: '[Orientation video call preview]',
+        waveformSmoothness: 0.15,
+      },
       {
         id: 'stop-1',
         stepNumber: '01',
-        badge: 'Weeks 1–2',
-        title: 'Voice Habit & Safe Foundations',
-        duration: 'Weeks 1–2 · Online',
-        description: 'Establish the daily 20-minute rhythm. Start recording daily 3-minute audios in the Zlaqa app using visual image prompts. Attend the first "Daily Voice" Google Meet circle and have your initial 1-on-1 SLP assessment.',
-        keyTakeaway: 'Removing initial speaking anxiety by normalizing your natural voice in the app.',
-        mediaPlaceholderCaption: '[Replace: Participant recording speech audio on the Zlaqa app with warm morning light]',
+        badge: 'Week 1',
+        title: 'Know Your Stammer',
+        duration: 'Week 1 · Online',
+        description: 'Map out your specific stammering triggers, feared situations, and physical speech blocks with clinical tools.',
+        keyTakeaway: 'Mapping triggers removes unexpected panic.',
+        mediaPlaceholderCaption: '[Trigger mapping exercise]',
         waveformSmoothness: 0.25,
       },
       {
         id: 'stop-2',
         stepNumber: '02',
-        badge: 'Weeks 3–4',
-        title: 'Desensitization & Topic Exploration',
-        duration: 'Weeks 3–4 · Online',
-        description: 'Transition from basic image prompts to talking about topics where you tend to stammer more. Deliver your first 5-minute team presentation in a safe, encouraging group environment.',
-        keyTakeaway: 'Embracing speech blocks with gentle pausing techniques and reduced internal struggle.',
-        mediaPlaceholderCaption: '[Replace: Small Google Meet screenshot showing supportive peer reactions]',
-        waveformSmoothness: 0.50,
+        badge: 'Week 2',
+        title: 'Breathe Before You Speak',
+        duration: 'Week 2 · Online',
+        description: 'Learn and integrate diaphragmatic breathing and gentle vocal onsets into a daily reflex habit that sticks.',
+        keyTakeaway: 'Breath pacing anchors your vocal cords.',
+        mediaPlaceholderCaption: '[Guided breath drill]',
+        waveformSmoothness: 0.38,
       },
       {
         id: 'stop-3',
         stepNumber: '03',
-        badge: 'Weeks 5–6',
-        title: 'Real-World Pressure Simulation',
-        duration: 'Weeks 5–6 · Online',
-        description: 'Engage in weekly 5-minute quick-question practice calls simulating unpredictable conversational turns. The SLP adds personalized audio prompts tailored to your specific triggers.',
-        keyTakeaway: 'Handling unexpected pauses and conversational transitions with calm breath control.',
-        mediaPlaceholderCaption: '[Replace: 1-on-1 SLP video consultation giving visual feedback on speech pacing]',
-        waveformSmoothness: 0.75,
+        badge: 'Week 3',
+        title: 'Slow is Strong',
+        duration: 'Week 3 · Online',
+        description: 'Shift away from rushed speech. Master intentional pausing, rhythmic pacing, and reclaiming your speaking time.',
+        keyTakeaway: 'Taking your time is a sign of confidence, not hesitation.',
+        mediaPlaceholderCaption: '[Speech pacing session]',
+        waveformSmoothness: 0.50,
       },
       {
         id: 'stop-4',
         stepNumber: '04',
-        badge: 'Weeks 7–8',
-        title: 'Public Expression & Self-Advocacy',
-        duration: 'Weeks 7–8 · Online',
-        description: 'Present longer topics, lead a Daily Voice session, and practice speech disclosure strategies in everyday social or workplace settings with your cohort standing beside you.',
-        keyTakeaway: 'Steadiness is not the absence of stammering—it is speaking your truth without fear.',
-        mediaPlaceholderCaption: '[Replace: Participant presenting confidently over a video call with peers cheering]',
-        waveformSmoothness: 0.95,
-      }
+        badge: 'Week 4',
+        title: 'Words That Get Stuck',
+        duration: 'Week 4 · Online',
+        description: 'Systematically face feared consonant and vowel combinations. Desensitize speech blocks with pull-out and easy-stutter techniques.',
+        keyTakeaway: 'Facing feared words directly disarms their power.',
+        mediaPlaceholderCaption: '[Pull-out technique coaching]',
+        waveformSmoothness: 0.62,
+      },
+      {
+        id: 'stop-5',
+        stepNumber: '05',
+        badge: 'Week 5',
+        title: 'Real Conversations',
+        duration: 'Week 5 · Online',
+        description: 'Put your tools into real-life settings: ordering food, answering phone calls, introducing yourself to strangers.',
+        keyTakeaway: 'Bridging practice room tools into everyday social life.',
+        mediaPlaceholderCaption: '[Real-world phone call drill]',
+        waveformSmoothness: 0.75,
+      },
+      {
+        id: 'stop-6',
+        stepNumber: '06',
+        badge: 'Week 6',
+        title: 'Hard Situations',
+        duration: 'Week 6 · Online',
+        description: 'Stay grounded under pressure during job interviews, college presentations, viva exams, and meeting debates.',
+        keyTakeaway: 'Composure when speaking stakes are high.',
+        mediaPlaceholderCaption: '[Viva and interview simulation]',
+        waveformSmoothness: 0.85,
+      },
+      {
+        id: 'stop-7',
+        stepNumber: '07',
+        badge: 'Week 7',
+        title: 'Your Voice, Your Story',
+        duration: 'Week 7 · Online',
+        description: 'Prepare your personal 2-minute capstone talk with feedback from your Speech-Language Pathologist.',
+        keyTakeaway: 'Framing your speech story authentically.',
+        mediaPlaceholderCaption: '[Drafting capstone presentation]',
+        waveformSmoothness: 0.92,
+      },
+      {
+        id: 'stop-8',
+        stepNumber: '08',
+        badge: 'Week 8',
+        title: 'Speak Without Fear',
+        duration: 'Week 8 · Online',
+        description: 'Deliver your 2-minute talk in front of your cohort and mentors. Receive your program certificate of completion.',
+        keyTakeaway: 'Steadiness is speaking your truth unapologetically.',
+        mediaPlaceholderCaption: '[Cohort graduation & certificate]',
+        waveformSmoothness: 1.0,
+      },
     ] as JourneyStop[],
   },
 
-  dailyRhythm: {
-    eyebrow: 'A Day in MYSB',
-    headline: 'Small daily commitments. Lasting speech transformation.',
-    subheadline: 'Designed to fit seamlessly into school, college, or work routines without overwhelm.',
-    steps: [
-      {
-        id: 'rhythm-1',
-        timeEstimate: '20 Mins',
-        title: 'Daily Practice Session',
-        tagline: 'Morning or Evening · App & Meet',
-        description: 'Guided gentle vocalization, diaphragmatic pacing, and warm-up exercises on the MYSB app or short Google Meet room.',
-        iconName: 'Sparkles',
-        highlightDetails: ['Vocal cord relaxation', 'Gentle onset practice', 'Pacing drills']
-      },
-      {
-        id: 'rhythm-2',
-        timeEstimate: '≥ 3 Mins',
-        title: 'Daily Audio Recording (Zlaqa App)',
-        tagline: 'Image Prompt · Speech Evaluation & Solutions',
-        description: 'Open the Zlaqa app, explore the day’s visual prompt, and record at least 3 minutes of continuous speech. Evaluate your speech flow, understand your speech blocks, and unlock targeted solutions.',
-        iconName: 'Mic',
-        highlightDetails: ['Full access to Zlaqa app included', 'Speech pattern self-evaluation & block analysis', 'Targeted solutions reviewed with your SLP']
-      },
-      {
-        id: 'rhythm-3',
-        timeEstimate: 'Daily Group',
-        title: '"Daily Voice" Meet',
-        tagline: 'Google Meet · All 10 Peers',
-        description: 'Our daily safe circle to talk through how the day felt, discuss speaking blocks, celebrate wins, and bond with peers who get it.',
-        iconName: 'Users',
-        highlightDetails: ['Zero pressure to be fluent', 'Active listening', 'Shared empathy']
-      },
-      {
-        id: 'rhythm-4',
-        timeEstimate: '5–10 Mins',
-        title: 'Weekly 1-on-1 SLP Check-In',
-        tagline: 'Individual · Speech Pathologist',
-        description: 'Your assigned Speech Language Pathologist reviews your audio files, analyzes speech rhythm, and prescribes custom exercises and prompts.',
-        iconName: 'UserCheck',
-        highlightDetails: ['Individualized feedback', 'Custom image prompts', 'Targeted technique tuning']
-      },
-      {
-        id: 'rhythm-5',
-        timeEstimate: 'Full Day',
-        title: 'Sunday Rest Day',
-        tagline: 'Rest & Recharge · Every Week',
-        description: 'No recordings, no meetings. Rest your voice, spend time with loved ones, and let neural motor pathways integrate naturally.',
-        iconName: 'Coffee',
-        isRest: true,
-        highlightDetails: ['Zero required tasks', 'Mental relaxation', 'Ready for Monday fresh']
-      }
-    ] as DayStep[],
-  },
-
-  featuresBento: {
-    eyebrow: 'What You Get',
-    headline: 'Everything you need to build steady speech.',
-    subheadline: 'A complete ecosystem of clinical guidance, daily accountability, and compassionate community.',
-    items: [
-      {
-        id: 'bento-1',
-        span: 'col-span-12 md:col-span-6 lg:col-span-8',
-        badge: 'Clinical Partnership',
-        title: 'Weekly 1-on-1 SLP Feedback & Custom Prompts',
-        description: 'Your Speech Language Pathologist reviews your weekly recordings, adds tailored image prompts for your specific triggers, and provides direct actionable coaching.',
-        visualType: 'slp-tag',
-        extraMeta: '5–10 min private review every week'
-      },
-      {
-        id: 'bento-2',
-        span: 'col-span-12 md:col-span-6 lg:col-span-4',
-        badge: 'Peer Support',
-        title: 'The "Daily Voice" Safe Circle',
-        description: 'A daily Google Meet room where stammering is completely normalized. Speak at your own speed with 9 peers who truly understand.',
-        visualType: 'waveform',
-        extraMeta: 'Daily Google Meet'
-      },
-      {
-        id: 'bento-3',
-        span: 'col-span-12 lg:col-span-4',
-        badge: 'Zlaqa App Included',
-        title: 'Zlaqa App Access & Speech Evaluation',
-        description: 'Every participant receives access to the Zlaqa app included with the program. Record daily audios, evaluate speaking blocks, and discover personalized solutions.',
-        visualType: 'voice-bars',
-        extraMeta: 'Full Zlaqa App Access Included'
-      },
-      {
-        id: 'bento-4',
-        span: 'col-span-12 md:col-span-6 lg:col-span-4',
-        badge: 'Real-World Drills',
-        title: 'Weekly 5-Min Presentations & Quick Calls',
-        description: 'Practice 5-minute team presentations and spontaneous 5-minute rapid question calls to simulate unpredictable real-life conversations.',
-        visualType: 'presentation',
-        extraMeta: 'Builds spontaneous resilience'
-      },
-      {
-        id: 'bento-5',
-        span: 'col-span-12 md:col-span-6 lg:col-span-4',
-        badge: 'In-Person Community',
-        title: 'Offline Cohort Gathering (In Planning)',
-        description: 'We are planning a special in-person cohort gathering. Secret date and venue will be decided collaboratively with confirmed participants.',
-        visualType: 'offline-chip',
-        extraMeta: 'Gathering in planning'
-      }
-    ] as BentoItem[],
-  },
-
   numbers: [
-    { value: 10, suffix: '', label: 'Seats per Cohort', detail: 'Intimate size to ensure deep attention and genuine peer bonds' },
-    { value: 8, suffix: ' Wks', label: 'Program Length', detail: 'Structured progression from foundational habits to public speech' },
-    { value: 20, suffix: ' Min', label: 'Daily Practice', detail: 'Manageable daily micro-routine that fits any schedule' },
-    { value: 3, suffix: ' Min+', label: 'Recorded Audio Daily', detail: 'Focused speech practice on image and challenge topics' },
-    { value: 1, suffix: 'x / Wk', label: '1-on-1 SLP Review', detail: 'Personalized clinical feedback and tailored prompts' },
+    { value: 15, suffix: ' Seats', label: 'Cohort 01 Capacity', detail: 'Strictly limited so every participant receives close attention' },
+    { value: 8, suffix: ' Weeks', label: 'Program Length', detail: 'A steady climb from baseline assessment to public talk' },
+    { value: 20, suffix: ' Min', label: 'Daily Practice', detail: '10 min app practice + 10 min daily group meet' },
+    { value: 1, suffix: ' In-Person', label: 'Half-Day Meetup', detail: 'Face-to-face gathering with therapists and cohort' },
+    { value: 100, suffix: '%', label: 'Safe & Confidential', detail: 'Zero recordings shared without separate written consent' },
   ],
 
   team: {
-    eyebrow: 'Leadership & Clinical Guidance',
-    headline: 'Guided by speech professionals, driven by community.',
-    subheadline: 'Our team bridges certified clinical speech science with dedicated operations and empathetic coordination.',
+    eyebrow: 'Our Team',
+    headline: 'Real experts. Real people.',
+    subheadline: 'Guided by certified Speech-Language Pathologists and supported by the Zlaqa AI Labs team.',
     members: [
       {
         id: 'team-slp',
-        name: '[SLP NAME]',
-        role: 'Consultant Speech Language Pathologist',
+        name: 'Clinical Team',
+        role: 'Speech-Language Pathologists',
         isLeadSLP: true,
-        credentials: 'M.Sc. SLP, Licensed Clinical Specialist',
-        bio: 'Specializing in fluency disorders, cognitive-communication resilience, and holistic stammering therapies. Passionate about empowering young voices through compassionate, structured daily practice.',
-        quote: '"Speech steadiness is not about perfection—it is about finding the freedom to speak without holding back."',
-        imagePlaceholderCaption: '[Replace: Professional warm headshot of the Speech Language Pathologist]'
+        credentials: 'Certified SLP Specialists',
+        bio: 'Licensed speech clinicians leading weekly live sessions, individual assessments, diagnostic reviews, and evidence-informed speech drills.',
+        quote: '"Speech steadiness is not about eliminating stammering—it is about speaking freely on your own terms."',
+        imagePlaceholderCaption: 'Speech-Language Pathologists'
       },
       {
-        id: 'team-tech',
+        id: 'team-anfaz',
+        name: 'Anfaz N',
+        role: 'Program Lead, ZLAQA',
+        bio: 'Leads program design, participant onboarding, daily group coordination, and cohort experience across the 8 weeks.',
+        imagePlaceholderCaption: 'Anfaz N, Program Lead'
+      },
+      {
+        id: 'team-anfas',
         name: 'Anfas KP',
-        role: 'Technical & Operations Lead',
-        bio: 'Leads program infrastructure, technology coordination, and cohort operations to make the daily MYSB experience seamless, safe, and intuitive for every participant.',
-        imagePlaceholderCaption: '[Replace: Portrait of Anfas KP with natural studio lighting]'
+        role: 'Tech Lead, ZLAQA',
+        bio: 'Builds and oversees the platform infrastructure, app integrations, and technical systems that keep sessions running smoothly.',
+        imagePlaceholderCaption: 'Anfas KP, Tech Lead'
       },
       {
-        id: 'team-coord-1',
-        name: 'Harshidha',
-        role: 'Program Coordinator',
-        bio: 'Facilitates the Daily Voice Google Meet sessions, community onboarding, and peer encouragement across the 8 weeks.',
-        imagePlaceholderCaption: '[Replace: Warm portrait of Harshidha]'
-      },
-      {
-        id: 'team-coord-2',
-        name: 'Nisha',
-        role: 'Cohort Coordinator',
-        bio: 'Coordinates scheduling, 1-on-1 SLP time slots, and supports participants with gentle daily practice reminders.',
-        imagePlaceholderCaption: '[Replace: Warm portrait of Nisha]'
-      },
-      {
-        id: 'team-coord-3',
-        name: 'Ayesha',
-        role: 'Community Experience Lead',
-        bio: 'Organizes the in-person kickoff and closing events, ensuring every member feels welcomed, heard, and supported.',
-        imagePlaceholderCaption: '[Replace: Warm portrait of Ayesha]'
+        id: 'team-shaheen',
+        name: 'Shaheen',
+        role: 'Founder, Zlaqa AI Labs',
+        bio: 'Founder of Zlaqa AI Labs. Dedicated to building human-centric speech technology and supportive communities for people who stammer.',
+        imagePlaceholderCaption: 'Shaheen, Founder'
       }
     ] as TeamMember[],
   },
 
-  offlineEvents: {
+  meetupAndTalks: {
     eyebrow: 'In-Person Gathering',
-    headline: 'Connect in real life: An offline gathering with your 10 members.',
-    subheadline: 'While daily practice takes place online, we bring our 10-person circle together for an in-person gathering—stepping away from screens into a relaxed, supportive real-world space.',
-    gathering: {
-      badge: 'Cohort Gathering',
-      status: 'Planned with Members',
-      title: 'The 10-Member Offline Gathering',
-      dateTeaser: 'Planned collaboratively with your 10 cohort members',
-      venueTeaser: 'Comfortable, private space chosen together with the cohort',
-      format: 'Intimate in-person meetup with your 10 peers & Speech Pathologist',
-      description: 'An opportunity to step out from behind the screen and meet your fellow cohort members and Speech Language Pathologist in person. Share stories, practice low-pressure real-world conversations, enjoy food, and celebrate your voice progress together.',
-      whatToExpect: [
-        'Face-to-face circle with your 10 cohort members & Speech Pathologist',
-        'Gentle, low-pressure conversational practice and real-world confidence exercises',
-        'Direct personalized technique tips and voice encouragement from the SLP',
-        'Shared meal and casual conversation in a safe, warm environment',
-        'Date, timing, and venue planned collaboratively with confirmed cohort members'
-      ],
-      footnoteLeft: 'Included for all enrolled cohort participants',
-      footnoteRight: 'Planned collaboratively after cohort onboarding'
-    } as OfflineGatheringData,
+    headline: 'Online daily. In person once.',
+    subheadline: 'In the first month, we meet face to face. Your cohort and your therapists together for a half day.',
+    dateVenue: 'Date and venue will be announced after the 15-person cohort is confirmed.',
+    expertTalks: 'Plus 2 to 3 exclusive expert masterclasses on voice, speech psychology, and confidence throughout the 8 weeks.'
   },
 
-  testimonials: {
-    eyebrow: 'Participant Experiences',
-    headline: 'Stories from voices finding their steadiness.',
-    subheadline: 'All stories and reflections are shared with explicit written consent from our participants and parents.',
-    disclaimer: 'Reflections represent individual personal journeys. MYSB does not promise clinical cures.',
-    items: [
+  pricing: {
+    eyebrow: 'Transparent Pricing',
+    headline: 'Simple pricing. Maximum value.',
+    subheadline: 'Full 8-week program including weekly SLP sessions, app access, and the in-person meetup.',
+    tiers: [
       {
-        id: 'voice-1',
-        name: '[Participant A]',
-        age: 21,
-        location: 'Calicut',
-        cohort: 'Pilot Cohort',
-        quote: 'Before MYSB, I would stay silent in college discussions rather than risk a heavy block. Recording audio daily for 3 minutes and knowing my 9 peers were doing the same broke the fear cycle completely.',
-        highlight: 'Spoke up in class for the first time in 3 years',
-        voiceNoteDuration: '0:42',
-        consentConfirmed: true
+        name: 'Mindi Thudangam community member',
+        price: '₹339',
+        period: 'Full 8 weeks',
+        description: 'Special subsidized rate for registered members of the Mindi Thudangam community.',
+        isPopular: true,
       },
       {
-        id: 'voice-2',
-        name: '[Participant B]',
-        age: 17,
-        location: 'Kochi',
-        cohort: 'Pilot Cohort',
-        quote: 'My parents signed me up because I was terrified of job interviews. Having 5-minute quick question calls every week with the SLP gave me concrete tools to handle unexpected pauses with calm breathing.',
-        highlight: 'Cleared first college viva interview with confidence',
-        voiceNoteDuration: '0:35',
-        consentConfirmed: true
-      },
-      {
-        id: 'voice-3',
-        name: '[Participant C]',
-        age: 26,
-        location: 'Trivandrum',
-        cohort: 'Pilot Cohort',
-        quote: 'The "Daily Voice" Google Meet is unlike anything else. You never feel judged. Everyone stammers, everyone pauses, and everyone listens with pure patience.',
-        highlight: 'Steadier speech at workplace meetings',
-        voiceNoteDuration: '0:50',
-        consentConfirmed: true
+        name: 'Everyone else',
+        price: '₹449',
+        period: 'Full 8 weeks',
+        description: 'All-inclusive enrollment covering live SLP coaching, app drills, and cohort community.',
+        isPopular: false,
       }
-    ] as Testimonial[],
+    ],
+    referral: {
+      headline: 'Bring someone who stammers. You both get ₹199 off.',
+      description: 'Connect another person who stammers to SPEAKUP. When they join, you both save ₹199 on enrollment.',
+    }
+  },
+
+  safetyAndPrivacy: {
+    eyebrow: 'Safety & Trust',
+    headline: 'Your voice. Your safety.',
+    subheadline: 'We treat your privacy with the highest respect and medical ethics.',
+    points: [
+      'Sessions are recorded only for program quality and SLP review, and only with your explicit consent.',
+      'All recordings are stored in a private, restricted vault. Never shared publicly without separate written permission.',
+      'Under 18? A parent or guardian must provide consent before you join (DPDP Act compliant).',
+      'SPEAKUP is a guided practice program. We do not promise a cure. We promise structure, support and steady progress.',
+      'Not a replacement for individual clinical therapy if you require individualized medical diagnosis.'
+    ]
   },
 
   faq: {
     eyebrow: 'Frequently Asked Questions',
-    headline: 'Clear answers for participants and parents.',
-    subheadline: 'Everything you need to know about the 8-week commitment, privacy, and clinical boundaries.',
+    headline: 'Clear, honest answers.',
+    subheadline: 'Everything you need to know before applying for Cohort 01.',
     categories: ['Program & Schedule', 'Clinical & Medical', 'Participation & Privacy'] as const,
     items: [
       {
         id: 'faq-1',
         category: 'Program & Schedule',
-        question: 'Who is eligible to join MYSB?',
-        answer: 'MYSB is tailored specifically for young people aged 15 to 30 who stammer or struggle with speech fluency anxiety. Each cohort is strictly capped at 10 participants to maintain intimate, high-quality peer interaction and individual SLP attention.'
+        question: 'Do I need to be good with apps?',
+        answer: 'No. If you can use WhatsApp, you can use this. We help you set up everything during Orientation Day.'
       },
       {
         id: 'faq-2',
         category: 'Program & Schedule',
-        question: 'How much time do I need to commit each day?',
-        answer: 'Expect approximately 20 to 30 minutes per day. This includes your 20-minute guided practice / Daily Voice Google Meet, plus at least 3 minutes recording your audio journal in the app. Once a week, you have a 5–10 minute 1-on-1 call with the Speech Language Pathologist. Sunday is a complete rest day.'
+        question: 'What if I miss a day?',
+        answer: 'It happens! We check in gently. We never shame or judge you. You can catch up on practice exercises at your own pace.'
       },
       {
         id: 'faq-3',
-        category: 'Program & Schedule',
-        question: 'What happens if I miss a daily session or audio recording?',
-        answer: 'Life happens! You can catch up on your daily audio recording later in the day. If you miss a Daily Voice meet, your cohort coordinator will check in gently to ensure you have what you need. We prioritize consistent habit over rigid perfection.'
+        category: 'Participation & Privacy',
+        question: 'Do I have to speak in the group?',
+        answer: 'You will speak—slowly, safely, and in your own time. Nobody is pushed past what they can handle.'
       },
       {
         id: 'faq-4',
-        category: 'Clinical & Medical',
-        question: 'Is MYSB a replacement for formal speech therapy?',
-        isSLPApprovedWording: true,
-        answer: 'MYSB is a structured speech practice, habit-building, and peer-support program guided by a Speech Language Pathologist. It provides evidence-informed fluency drills and desensitization exercises, but is not a medical diagnosis or hospital clinical intervention. Participants undergoing individual clinical therapy may use MYSB as supplementary practice in consultation with their clinician.'
+        category: 'Program & Schedule',
+        question: 'Is it online?',
+        answer: 'Yes. Daily practice and weekly sessions are online. The in-person meetup is optional but highly encouraged.'
       },
       {
         id: 'faq-5',
         category: 'Clinical & Medical',
-        question: 'Do you promise or guarantee a "cure" for stammering?',
-        answer: 'No. Stammering is a complex neurodevelopmental variation. We do not make false promises or promote miracle cures. Our goal is to reduce speaking anxiety, cultivate vocal steadiness, build conversational resilience, and help you speak freely and unapologetically.'
+        question: 'Is this therapy?',
+        answer: 'It is a structured practice program led by Speech-Language Pathologists. It does not replace individual clinical therapy.'
       },
       {
         id: 'faq-6',
-        category: 'Participation & Privacy',
-        question: 'Is my audio and registration data kept strictly confidential?',
-        answer: 'Yes, 100%. Your daily audio recordings are stored securely and accessible only to you and your assigned Speech Language Pathologist for clinical feedback. We never sell, share, or publish participant audio, photos, or details without explicit written consent.'
+        category: 'Program & Schedule',
+        question: 'How do I pay?',
+        answer: 'After a short WhatsApp chat with our team to confirm your readiness, you will receive a secure payment link.'
       },
       {
         id: 'faq-7',
         category: 'Participation & Privacy',
-        question: 'What is the program fee to join MYSB?',
-        answer: 'The program fee is ₹199 for the full 8-week cohort. This nominal fee covers your guided daily practice, weekly 1-on-1 Speech Language Pathologist check-ins, companion app access, and the collaborative offline gathering.'
-      },
-      {
-        id: 'faq-8',
-        category: 'Participation & Privacy',
-        question: 'I am under 18. What extra details are required?',
-        answer: 'Participants aged 15 to 17 are warmly welcome. As part of our child safety and parental trust standards, we require the name, contact number, and explicit digital consent of a parent or legal guardian during registration.'
-      },
-      {
-        id: 'faq-9',
-        category: 'Program & Schedule',
-        question: 'What is the Zlaqa app and is it included?',
-        answer: 'Yes! Every enrolled MYSB participant receives full access to the Zlaqa app included with their ₹199 cohort registration. You will use Zlaqa for your Daily Audio Recording sessions to evaluate your speech, identify blocks and problem areas, and unlock personalized solutions alongside your SLP guidance.'
-      },
-      {
-        id: 'faq-10',
-        category: 'Program & Schedule',
-        question: 'What devices and tools do I need to participate?',
-        answer: 'You only need a smartphone (Android or iOS) with the Zlaqa app installed, a working microphone and camera, a stable internet connection, Google Meet, and access to WhatsApp for cohort announcements.'
-      },
-      {
-        id: 'faq-11',
-        category: 'Program & Schedule',
-        question: 'What if the 10 cohort seats are already full?',
-        answer: 'If the current cohort is at full capacity (10/10), you will automatically be invited to join our Priority Waitlist for Cohort 2. You will also receive an invitation to join our public WhatsApp community for upcoming workshops and resources.'
+        question: 'I am under 18. Can I join?',
+        answer: 'Yes! Anyone from age 15 to 30 can join. If you are aged 15 to 17, parent or guardian consent is required.'
       }
     ] as FAQItem[],
   },
 
-  registration: {
-    eyebrow: 'Secure Your Seat',
-    headline: 'Join Cohort 1 · 10 Seats Maximum',
-    subheadline: 'Strict 10-seat cohort for young people who stammer. Fill the 2-minute form below to join.',
-    reassuranceTitle: 'What happens after you submit:',
-    reassuranceSteps: [
-      'Our team reviews your application within 24–48 hours.',
-      'You receive an invitation to join the official Cohort 1 WhatsApp group.',
-      'Our team schedules a brief welcome orientation call before the cohort begins.',
-    ],
-    privacyPledge: 'We respect your privacy. No spam, no health details requested, no public disclosure without consent.',
+  closingCta: {
+    heading: 'Your voice is already there.',
+    subheading: 'Let’s help the world hear it.',
+    buttonText: 'Apply now',
+    dates: 'Apply by 19 November · Orientation 21 November · Program starts 23 November',
   },
 
   footer: {
-    tagline: 'Make Your Speech Better · Steadier every week.',
-    disclaimer: 'MYSB (Make Your Speech Better) is an educational speech practice initiative for ages 15–30 who stammer. Not a replacement for individualized medical diagnoses.',
-    copyright: `© ${new Date().getFullYear()} MYSB Program. All rights reserved.`,
+    tagline: 'SPEAKUP. find your voice own your words',
+    attribution: 'A ZLAQA AI Labs program',
+    disclaimer: 'SPEAKUP is a guided speech practice program by ZLAQA AI Labs. We do not promise a cure.',
+    copyright: `© 2026 ZLAQA AI Labs. All rights reserved.`,
     links: [
-      { label: 'Privacy Policy', href: '#privacy' },
+      { label: 'Privacy & Consent', href: '#privacy' },
       { label: 'Terms of Use', href: '#terms' },
-      { label: 'Brochure (PDF)', href: '/assets/MYSB_Program_Brochure_2026.pdf' },
-      { label: 'Community Poster (PDF)', href: '/assets/MYSB_Community_Poster_2026.pdf' },
     ],
     contact: {
-      email: 'hello@mysbprogram.org',
-      whatsapp: 'https://chat.whatsapp.com/[WHATSAPP_LINK]',
-      instagram: 'https://instagram.com/mysbprogram',
+      whatsapp: 'https://wa.me/918089124307',
+      email: 'contact@zlaqa.com',
+      instagram: 'https://instagram.com/zlaqa.ai',
     }
   }
 };

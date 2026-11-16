@@ -38,13 +38,18 @@ export const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <div className={cn('border-y border-ink-900/[0.12] divide-y divide-ink-900/[0.1]', className)}>
+    <div className={cn('space-y-3', className)}>
       {items.map((item) => {
         const isOpen = openIds.includes(item.id);
         return (
           <div 
             key={item.id} 
-            className="transition-colors duration-150 py-1"
+            className={cn(
+              "rounded-2xl transition-all duration-200 backdrop-blur-md",
+              isOpen 
+                ? "bg-white border-2 border-[#6D28D9]/40 shadow-sm ring-2 ring-[#6D28D9]/10" 
+                : "bg-white/80 hover:bg-white border border-[#EDE9FE] shadow-2xs hover:shadow-xs"
+            )}
           >
             <button
               type="button"
@@ -52,24 +57,24 @@ export const Accordion: React.FC<AccordionProps> = ({
               aria-controls={`faq-panel-${item.id}`}
               aria-expanded={isOpen}
               onClick={() => toggleItem(item.id, item.question)}
-              className="flex w-full items-start justify-between gap-4 py-5 sm:py-6 text-left group cursor-pointer select-none focus-visible:outline-none active:scale-[0.99] transition-transform duration-100 ease-out"
+              className="flex w-full items-start justify-between gap-4 p-5 sm:p-6 text-left group cursor-pointer select-none focus-visible:outline-none"
             >
               <div className="flex flex-col gap-1.5 pr-2">
                 {item.category && (
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-teal-850 dark:text-mint-300 font-bold">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#6D28D9] font-bold">
                     {item.category}
                   </span>
                 )}
-                <span className="text-base sm:text-lg md:text-xl font-display font-bold tracking-tight text-ink-900 dark:text-cream-50 group-hover:text-teal-900 dark:group-hover:text-mint-300 transition-colors">
+                <span className="text-base sm:text-lg md:text-xl font-display font-bold tracking-tight text-[#0B0B0B] group-hover:text-[#6D28D9] transition-colors">
                   {item.question}
                 </span>
               </div>
               <span
                 className={cn(
-                  'flex-shrink-0 w-8 h-8 rounded-full border border-ink-900/15 dark:border-cream-100/20 flex items-center justify-center text-ink-700 dark:text-cream-200 transition-all duration-200 ease-out mt-0.5',
+                  'flex-shrink-0 w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-200 ease-out mt-0.5',
                   isOpen 
-                    ? 'bg-teal-900 text-white border-teal-900 dark:bg-mint-400 dark:text-teal-950 dark:border-mint-400 rotate-45' 
-                    : 'bg-white text-ink-700 group-hover:border-teal-700 group-hover:text-teal-900 rotate-0 shadow-2xs'
+                    ? 'bg-[#6D28D9] text-white border-[#6D28D9] rotate-45 shadow-2xs' 
+                    : 'bg-white text-slate-500 border-slate-200 group-hover:border-[#6D28D9] group-hover:text-[#6D28D9] rotate-0 shadow-2xs'
                 )}
               >
                 <Plus className="w-4 h-4 transition-transform duration-200 ease-out" />
@@ -88,10 +93,10 @@ export const Accordion: React.FC<AccordionProps> = ({
                   transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="pb-6 sm:pb-7 text-sm sm:text-base leading-relaxed text-ink-700 dark:text-cream-200">
+                  <div className="px-5 sm:px-6 pb-6 text-sm sm:text-base leading-relaxed text-slate-600">
                     {item.isSLPApprovedWording && (
-                      <div className="mb-3 inline-flex items-center gap-1.5 text-xs font-mono text-teal-850 dark:text-mint-300 font-bold uppercase tracking-wider">
-                        <CheckCircle className="w-3.5 h-3.5 text-teal-700 dark:text-mint-400" />
+                      <div className="mb-3 inline-flex items-center gap-1.5 text-xs font-mono text-[#6D28D9] font-bold uppercase tracking-wider">
+                        <CheckCircle className="w-3.5 h-3.5 text-[#6EC000]" />
                         <span>Clinical Clarification</span>
                       </div>
                     )}

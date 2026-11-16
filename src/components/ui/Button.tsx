@@ -34,7 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
     if (onClick) onClick(e);
   };
 
-  const baseStyles = 'group relative inline-flex items-center justify-center font-medium rounded-full overflow-hidden select-none cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed transition-[transform,box-shadow,background-color,border-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] active:duration-75 [@media(hover:hover)]:hover:-translate-y-[1.5px] will-change-transform';
+  const baseStyles = 'group relative inline-flex items-center justify-center font-medium rounded-xl sm:rounded-full overflow-hidden select-none cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-[#6D28D9] focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed transition-[transform,box-shadow,background-color,border-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] active:duration-75 [@media(hover:hover)]:hover:-translate-y-[1.5px] will-change-transform';
 
   const sizeStyles = {
     sm: 'text-xs px-4 py-2 gap-1.5 min-h-[36px]',
@@ -44,12 +44,12 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const variantStyles = {
-    primary: 'bg-coral-500 hover:bg-coral-600 active:bg-coral-700 text-white shadow-sm hover:shadow-md border border-coral-600/30 btn-shimmer',
-    coral: 'bg-coral-500 hover:bg-coral-600 active:bg-coral-700 text-white shadow-sm hover:shadow-md border border-coral-600/30 btn-shimmer',
-    secondary: 'bg-teal-900 hover:bg-teal-950 active:bg-teal-950 text-white shadow-sm hover:shadow-md border border-teal-800',
-    teal: 'bg-teal-900 hover:bg-teal-950 active:bg-teal-950 text-white shadow-sm hover:shadow-md border border-teal-800',
-    outline: 'bg-white hover:bg-cream-50 text-ink-900 border border-ink-900/15 hover:border-ink-900/30 shadow-2xs hover:shadow-xs',
-    ghost: 'bg-transparent text-ink-900 hover:bg-ink-900/5 hover:text-teal-900',
+    primary: 'bg-[#6EC000] hover:bg-[#62AD00] active:bg-[#549600] text-[#0B0B0B] font-bold border border-black/15 shadow-[0_4px_14px_0_rgba(110,192,0,0.35)] hover:shadow-[0_6px_20px_0_rgba(110,192,0,0.45)]',
+    coral: 'bg-[#6EC000] hover:bg-[#62AD00] active:bg-[#549600] text-[#0B0B0B] font-bold border border-black/15 shadow-[0_4px_14px_0_rgba(110,192,0,0.35)] hover:shadow-[0_6px_20px_0_rgba(110,192,0,0.45)]',
+    secondary: 'bg-[#6D28D9] hover:bg-[#5B21B6] active:bg-[#4C1D95] text-white font-semibold shadow-sm hover:shadow-md border border-violet-800',
+    teal: 'bg-[#6D28D9] hover:bg-[#5B21B6] active:bg-[#4C1D95] text-white font-semibold shadow-sm hover:shadow-md border border-violet-800',
+    outline: 'bg-white hover:bg-[#F5F3FF] text-[#0B0B0B] border border-violet-300 hover:border-[#6D28D9] shadow-2xs hover:shadow-xs',
+    ghost: 'bg-transparent text-[#6D28D9] hover:bg-[#F5F3FF] border border-[#6D28D9] font-semibold',
   };
 
   const content = (

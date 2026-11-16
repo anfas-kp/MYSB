@@ -7,10 +7,12 @@ export interface FieldProps extends React.InputHTMLAttributes<HTMLInputElement> 
   error?: string;
   helperText?: string;
   type?: string;
+  as?: 'input' | 'textarea';
+  rows?: number;
 }
 
-export const Field = forwardRef<HTMLInputElement, FieldProps>(
-  ({ label, error, helperText, className, id, type = 'text', ...props }, ref) => {
+export const Field = forwardRef<HTMLInputElement | HTMLTextAreaElement, FieldProps>(
+  ({ label, error, helperText, className, id, type = 'text', as = 'input', rows = 3, ...props }, ref) => {
     const inputId = id || `field-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
 
     return (
@@ -23,21 +25,39 @@ export const Field = forwardRef<HTMLInputElement, FieldProps>(
         </label>
         
         <div className="relative">
-          <input
-            ref={ref}
-            id={inputId}
-            type={type}
-            aria-invalid={error ? 'true' : 'false'}
-            aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
-            className={cn(
-              'w-full h-12 px-4 rounded-xl border bg-white dark:bg-teal-950/60 text-base sm:text-[15px] text-ink-950 dark:text-cream-50 placeholder:text-ink-400/60 transition-[border-color,box-shadow,background-color] duration-150 ease-out focus:outline-none disabled:opacity-50',
-              error
-                ? 'border-red-500 bg-red-50/20 dark:bg-red-950/20 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
-                : 'border-ink-900/20 dark:border-cream-100/20 hover:border-ink-900/40 focus:border-teal-700 focus:ring-2 focus:ring-teal-700/15 dark:focus:border-mint-400 dark:focus:ring-mint-400/20 shadow-2xs',
-              className
-            )}
-            {...props}
-          />
+          {as === 'textarea' ? (
+            <textarea
+              ref={ref as React.ForwardedRef<HTMLTextAreaElement>}
+              id={inputId}
+              rows={rows}
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
+              className={cn(
+                'w-full py-3 px-4 rounded-xl border bg-white text-base sm:text-[15px] text-slate-900 placeholder:text-slate-400 transition-[border-color,box-shadow,background-color] duration-150 ease-out focus:outline-none disabled:opacity-50 resize-none',
+                error
+                  ? 'border-red-500 bg-red-50/20 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
+                  : 'border-slate-200 hover:border-slate-300 focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/15 shadow-2xs',
+                className
+              )}
+              {...(props as unknown as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+            />
+          ) : (
+            <input
+              ref={ref as React.ForwardedRef<HTMLInputElement>}
+              id={inputId}
+              type={type}
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
+              className={cn(
+                'w-full h-12 px-4 rounded-xl border bg-white text-base sm:text-[15px] text-slate-900 placeholder:text-slate-400 transition-[border-color,box-shadow,background-color] duration-150 ease-out focus:outline-none disabled:opacity-50',
+                error
+                  ? 'border-red-500 bg-red-50/20 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
+                  : 'border-slate-200 hover:border-slate-300 focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/15 shadow-2xs',
+                className
+              )}
+              {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
+            />
+          )}
         </div>
 
         {error ? (

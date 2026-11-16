@@ -25,72 +25,89 @@ export default {
     },
     extend: {
       colors: {
-        // Deep teal brand scales
+        // Zlaqa / SPEAKUP Brand Palette
+        brand: {
+          green: {
+            DEFAULT: '#6EC000', // Zlaqa Green (Action, Buttons, Accents)
+            dark: '#3F7300',    // Green text on white (5.7:1 contrast)
+            soft: '#F1F9E4',    // Success states, soft fills
+            hover: '#62AD00',   // Primary hover
+          },
+          violet: {
+            DEFAULT: '#6D28D9', // Violet Secondary (Headers, Badges, Links)
+            deep: '#5B21B6',    // Dark Violet (Hover / CTA band)
+            light: '#EDE9FE',   // Tags, dividers, subtle fills
+            soft: '#F5F3FF',    // Card / alternate backgrounds
+          },
+          ink: '#0B0B0B',       // Primary text & wordmark
+          white: '#FFFFFF',     // Base background (70%+)
+        },
+        // Deep teal brand scales (compatibility mapping)
         teal: {
-          50: '#F0FDFA',
-          100: '#CCFBF1',
-          200: '#99F6E4',
-          300: '#5EEAD4',
-          400: '#2DD4BF',
-          500: '#14B8A6',
-          600: '#0F766E', // Primary brand teal
-          700: '#0D625C',
-          800: '#0B4D49',
-          900: '#0A2A2B', // Deep teal surface
-          950: '#051819',
+          50: '#F5F3FF',
+          100: '#EDE9FE',
+          200: '#DDD6FE',
+          300: '#C4B5FD',
+          400: '#A78BFA',
+          500: '#8B5CF6',
+          600: '#6D28D9', // Mapped to Violet
+          700: '#5B21B6',
+          800: '#4C1D95',
+          900: '#2E1065',
+          950: '#1E0A45',
         },
-        // Mint highlight
+        // Mint highlight (mapped to Zlaqa Green soft/bright)
         mint: {
-          50: '#F4FDFB',
-          100: '#E6FAF6',
-          200: '#C2F4EB',
-          300: '#9EEEDE',
-          400: '#7FE0CF', // Core mint
-          500: '#4DD3BC',
-          600: '#28B89F',
-          700: '#1E8F7C',
-          800: '#186F60',
-          900: '#13584D',
+          50: '#F1F9E4',
+          100: '#E2F3C8',
+          200: '#C5E791',
+          300: '#A8DB5A',
+          400: '#6EC000', // Core Zlaqa Green
+          500: '#62AD00',
+          600: '#3F7300',
+          700: '#305900',
+          800: '#213E00',
+          900: '#132400',
         },
-        // Coral primary action & offline event accent
+        // Coral primary action (mapped to Zlaqa Green action)
         coral: {
-          50: '#FFF5F2',
-          100: '#FFE9E4',
-          200: '#FFD3C9',
-          300: '#FFB2A2',
-          400: '#FF947E',
-          500: '#FF7A5C', // Core Coral CTA
-          600: '#F05F3E',
-          700: '#D44424',
-          800: '#B03318',
-          900: '#8C2914',
+          50: '#F1F9E4',
+          100: '#E2F3C8',
+          200: '#C5E791',
+          300: '#A8DB5A',
+          400: '#7DC814',
+          500: '#6EC000', // Core Action Green
+          600: '#62AD00',
+          700: '#3F7300',
+          800: '#305900',
+          900: '#213E00',
         },
-        // Cream light surface scale
+        // Cream light surface scale (mapped to clean White & soft tints)
         cream: {
-          50: '#FCFAF7',
-          100: '#F7F3EA', // Core cream surface
-          200: '#EFE8D8',
-          300: '#E4DAC3',
-          400: '#D5C7A8',
-          500: '#C2B08B',
-          600: '#A6926B',
-          700: '#867451',
-          800: '#68593E',
-          900: '#4D422E',
+          50: '#FFFFFF',
+          100: '#FFFFFF', // Clean White default surface
+          200: '#F8FAFC',
+          300: '#F1F5F9',
+          400: '#E2E8F0',
+          500: '#CBD5E1',
+          600: '#94A3B8',
+          700: '#64748B',
+          800: '#334155',
+          900: '#0F172A',
         },
         // Ink typography scale
         ink: {
-          50: '#F2F6F7',
-          100: '#E0E8EA',
-          200: '#BDCFD3',
-          300: '#95B1B7',
-          400: '#6C8E96',
-          500: '#4C6F77',
-          600: '#38545A',
-          700: '#283D42',
-          800: '#1B2C2F',
-          900: '#12262A', // Core Ink Text
-          950: '#091517',
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0B0B0B', // Core Ink Black
+          950: '#050505',
         },
         // CSS Variable Bindings
         background: 'var(--bg-primary)',

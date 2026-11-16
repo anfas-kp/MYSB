@@ -18,7 +18,7 @@ export const Toast: React.FC<ToastProps> = ({
   message,
 }) => {
   const handleDragEnd = (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    // Dismiss if dragged down by > 30px or fast flick downward (velocity > 200)
+    // Dismiss if dragged down by > 30px or fast flick downward
     if (info.offset.y > 30 || info.velocity.y > 200) {
       onClose();
     }
@@ -36,22 +36,22 @@ export const Toast: React.FC<ToastProps> = ({
           dragConstraints={{ top: 0, bottom: 80 }}
           dragElastic={{ top: 0.05, bottom: 0.3 }}
           onDragEnd={handleDragEnd}
-          className="fixed bottom-6 right-6 z-50 max-w-md w-[calc(100vw-3rem)] rounded-2xl bg-teal-950/95 text-cream-100 p-4 shadow-elevated-card border border-teal-850 border-t-white/25 flex items-start gap-3 backdrop-blur-xl cursor-grab active:cursor-grabbing select-none"
+          className="fixed bottom-6 right-6 z-50 max-w-md w-[calc(100vw-3rem)] rounded-2xl bg-[#0B0B0B]/95 text-white p-4 shadow-2xl border border-slate-800 flex items-start gap-3 backdrop-blur-xl cursor-grab active:cursor-grabbing select-none"
           role="alert"
         >
           <div className="flex-shrink-0 mt-0.5">
-            {type === 'success' && <CheckCircle2 className="w-5 h-5 text-mint-400" />}
-            {type === 'error' && <AlertCircle className="w-5 h-5 text-coral-400" />}
-            {type === 'info' && <Info className="w-5 h-5 text-teal-400" />}
+            {type === 'success' && <CheckCircle2 className="w-5 h-5 text-[#6EC000]" />}
+            {type === 'error' && <AlertCircle className="w-5 h-5 text-rose-400" />}
+            {type === 'info' && <Info className="w-5 h-5 text-violet-400" />}
           </div>
           <div className="flex-1 min-w-0">
             <h4 className="text-sm font-semibold text-white tracking-tight">{title}</h4>
-            {message && <p className="mt-0.5 text-xs text-cream-300 leading-relaxed">{message}</p>}
+            {message && <p className="mt-0.5 text-xs text-slate-300 leading-relaxed">{message}</p>}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="flex-shrink-0 text-cream-400 hover:text-white p-1 rounded-full hover:bg-white/10 active:scale-[0.9] transition-all"
+            className="flex-shrink-0 text-slate-400 hover:text-white p-1 rounded-full hover:bg-white/10 active:scale-[0.9] transition-all"
             aria-label="Dismiss notification"
           >
             <X className="w-4 h-4" />
@@ -61,4 +61,3 @@ export const Toast: React.FC<ToastProps> = ({
     </AnimatePresence>
   );
 };
-

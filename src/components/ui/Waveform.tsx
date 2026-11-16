@@ -16,8 +16,8 @@ export interface WaveformProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Waveform: React.FC<WaveformProps> = ({
   smoothness = 0.5,
-  color = '#0F766E', // Primary teal
-  secondaryColor = '#7FE0CF', // Mint
+  color = '#6D28D9', // Violet
+  secondaryColor = '#6EC000', // Zlaqa Green
   height = 140,
   interactive = true,
   frequency = 0.015,

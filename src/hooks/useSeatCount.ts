@@ -4,8 +4,8 @@ import { SeatStatusResponse } from '../types';
 export function useSeatCount() {
   const [data, setData] = useState<SeatStatusResponse>({
     cohort: 1,
-    totalSeats: 10,
-    seatsRemaining: 4,
+    totalSeats: 15,
+    seatsRemaining: 5,
     isWaitlist: false,
   });
   const [loading, setLoading] = useState(true);

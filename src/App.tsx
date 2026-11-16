@@ -9,9 +9,11 @@ import { Hero } from './components/sections/Hero';
 import { Statement } from './components/sections/Statement';
 import { DayInMYSB } from './components/sections/DayInMYSB';
 import { WhatYouGet } from './components/sections/WhatYouGet';
+import { Journey } from './components/sections/Journey';
 import { Numbers } from './components/sections/Numbers';
 import { OfflineEvents } from './components/sections/OfflineEvents';
 import { FAQ } from './components/sections/FAQ';
+import { ClosingBand } from './components/sections/ClosingBand';
 import { Registration } from './components/sections/Registration';
 import { Footer } from './components/sections/Footer';
 import { LegalModal } from './components/sections/LegalModal';
@@ -36,6 +38,7 @@ export function App() {
   useEffect(() => {
     document.documentElement.classList.remove('dark');
     try {
+      localStorage.removeItem('speakup-theme');
       localStorage.removeItem('mysb-theme');
     } catch {
       // ignore
@@ -68,9 +71,8 @@ export function App() {
     };
   }, [prefersReduced]);
 
-
   return (
-    <div className="relative min-h-screen bg-cream-100 text-ink-900 selection:bg-mint-400 selection:text-teal-950">
+    <div className="relative min-h-screen bg-white text-ink-900 selection:bg-[#F1F9E4] selection:text-[#3F7300]">
       {/* 01. Preloader */}
       <Preloader onComplete={() => setPreloaderDone(true)} />
 
@@ -84,30 +86,36 @@ export function App() {
           onWatchVideoClick={() => setIsVideoOpen(true)}
         />
 
-        {/* Statement Section */}
+        {/* Problem Section */}
         <Statement />
 
-        {/* A Day in MYSB */}
+        {/* What You Get */}
+        <WhatYouGet />
+
+        {/* A Day in SPEAKUP */}
         <DayInMYSB />
 
-        {/* What You Get (Bento Grid) */}
-        <WhatYouGet />
+        {/* 8-Week Journey */}
+        <Journey />
 
         {/* Numbers & Key Stats */}
         <Numbers />
 
-        {/* Offline Milestone Events */}
+        {/* Offline Milestone Events, Pricing & Safety */}
         <OfflineEvents />
 
         {/* FAQ Accordion */}
         <FAQ />
 
-        {/* Registration Section */}
+        {/* Application Form */}
         <Registration
           totalSeats={totalSeats}
           seatsRemaining={seatsRemaining}
           isWaitlist={isWaitlist}
         />
+
+        {/* Final Call to Action Banner */}
+        <ClosingBand />
       </main>
 
       {/* 05. Footer */}

@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, MessageCircle, AlertCircle, ArrowRight } from 'lucide-react';
+import { 
+  MessageCircle, 
+  AlertCircle, 
+  CheckCircle2, 
+  Sparkles,
+  ArrowRight
+} from 'lucide-react';
 import { Container } from '../ui/Container';
-import { Eyebrow } from '../ui/Eyebrow';
-import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { Field } from '../ui/Field';
-import { SITE_CONTENT } from '../../content/content';
+import { AmbientGlow } from '../ui/AmbientGlow';
+import { OrganicBlob } from '../ui/OrganicBlob';
 import { registrationSchema, RegistrationFormData } from '../../types';
-import { getUtmParameters, cn } from '../../lib/utils';
+import { getUtmParameters } from '../../lib/utils';
 import { trackEvent } from '../../lib/analytics';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export interface RegistrationProps {
   totalSeats?: number;
@@ -26,35 +29,31 @@ export const buildWhatsAppUrl = (data: RegistrationFormData | null, regId: strin
   if (!data) return `https://wa.me/${COORDINATOR_WHATSAPP}`;
   const isMinor = Number(data.age) < 18;
   const sections: string[] = [
-    `*MYSB COHORT 1 — ENROLLMENT APPLICATION*`,
+    `*SPEAKUP COHORT 01 — ENROLLMENT APPLICATION*`,
     `Ref ID: *${regId}*`,
     `----------------------------------------`,
-    `Hello Team,`,
+    `Hello Anfaz & SPEAKUP Team,`,
     ``,
-    `I have registered for the upcoming MYSB 8-Week Speech Practice Program. Please review my details below:`,
+    `I have applied for SPEAKUP Cohort 01 (Starts Mon 23 Nov 2026). Here are my details:`,
     ``,
     `*APPLICANT PROFILE*`,
     `• *Full Name:* ${data.fullName.trim()}`,
     `• *Age:* ${data.age}`,
-    `• *Phone:* ${data.countryCode || '+91'} ${data.phone.trim()}`,
-    `• *Email:* ${data.email.trim()}`,
-    `• *Location:* ${data.cityCountry.trim()}`,
-    `• *Preferred Language:* ${data.preferredLanguage || 'English'}`,
+    `• *WhatsApp:* ${data.countryCode || '+91'} ${data.phone.trim()}`,
+    `• *City & State:* ${data.cityState?.trim() || data.cityCountry?.trim() || 'N/A'}`,
+    `• *Email:* ${data.email?.trim() || 'Not provided'}`,
     ...(isMinor ? [
-      `• *Parent/Guardian:* ${data.guardianName || 'N/A'}`,
+      ``,
+      `*GUARDIAN DETAILS (UNDER 18)*`,
+      `• *Guardian Name:* ${data.guardianName || 'N/A'}`,
       `• *Guardian Contact:* ${data.guardianPhone || 'N/A'}`
     ] : []),
-    ...(data.notes && data.notes.trim() ? [
-      ``,
-      `*GOALS & NOTES*`,
-      `"${data.notes.trim()}"`
-    ] : []),
-    ``,
-    `*PROGRAM DETAILS*`,
-    `• *Cohort:* Cohort 1 (Strict 10-Person Circle)`,
-    `• *Program Fee:* ₹199`,
     `----------------------------------------`,
-    `Please confirm my seat reservation and share the next steps and orientation schedule.`,
+    `*CONSENTS CONFIRMED:*`,
+    `✓ Session recordings for program quality and SLP review`,
+    `✓ Privacy and Consent terms accepted`,
+    `----------------------------------------`,
+    `Please confirm my application and schedule the short welcome chat.`,
     ``,
     `Thank you!`
   ];
@@ -62,14 +61,12 @@ export const buildWhatsAppUrl = (data: RegistrationFormData | null, regId: strin
 };
 
 export const Registration: React.FC<RegistrationProps> = ({
-  totalSeats = 10,
   seatsRemaining = 4,
   isWaitlist = false,
 }) => {
-  const prefersReduced = useReducedMotion();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [, setSubmitError] = useState<string | null>(null);
   const [submissionId, setSubmissionId] = useState<string>('');
   const [submittedData, setSubmittedData] = useState<RegistrationFormData | null>(null);
 
@@ -77,6 +74,7 @@ export const Registration: React.FC<RegistrationProps> = ({
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
@@ -86,16 +84,41 @@ export const Registration: React.FC<RegistrationProps> = ({
       countryCode: '+91',
       phone: '',
       email: '',
+      cityState: '',
       cityCountry: '',
-      preferredLanguage: 'English',
-      notes: '',
       guardianName: '',
       guardianPhone: '',
       guardianConsent: false,
+      consentRecording: true,
+      consentPrivacy: true,
       hp_country: '',
     },
     mode: 'onTouched',
   });
+
+  // LocalStorage Auto-Drafting to prevent lost progress
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('speakup_app_draft');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        Object.keys(parsed).forEach((key) => {
+          setValue(key as any, parsed[key]);
+        });
+      }
+    } catch {
+      // ignore
+    }
+  }, [setValue]);
+
+  const watchAll = watch();
+  useEffect(() => {
+    try {
+      localStorage.setItem('speakup_app_draft', JSON.stringify(watchAll));
+    } catch {
+      // ignore
+    }
+  }, [watchAll]);
 
   const watchAge = watch('age');
   const isUnder18 = watchAge ? Number(watchAge) < 18 : false;
@@ -104,24 +127,26 @@ export const Registration: React.FC<RegistrationProps> = ({
     setIsSubmitting(true);
     setSubmitError(null);
 
-    const generatedId = `MYSB-${Date.now().toString(36).toUpperCase()}`;
+    const generatedId = `SPEAKUP-${Date.now().toString(36).toUpperCase()}`;
     setSubmittedData(data);
     setSubmissionId(generatedId);
 
-    trackEvent('form_start', { form_name: 'cohort_registration' });
+    trackEvent('form_start', { form_name: 'speakup_registration' });
 
-    // Open WhatsApp directly with the pre-filled applicant details to 8089124307
+    // Open WhatsApp directly with pre-filled details to Anfaz
     const waUrl = buildWhatsAppUrl(data, generatedId);
     try {
       window.open(waUrl, '_blank');
     } catch {
-      // browser popup block handled gracefully by fallback button
+      // popup block fallback handled
     }
 
     try {
       const utm = getUtmParameters();
       const payload = {
         ...data,
+        cityCountry: data.cityState || data.cityCountry,
+        consentDataUse: true,
         isWaitlist,
         utm,
       };
@@ -151,419 +176,343 @@ export const Registration: React.FC<RegistrationProps> = ({
       trackEvent('form_submit_success', { is_fallback: true });
     } finally {
       setIsSubmitting(false);
+      try {
+        localStorage.removeItem('speakup_app_draft');
+      } catch {
+        // ignore
+      }
     }
   };
 
   return (
     <section 
       id="register" 
-      aria-label="Registration and Enrollment"
-      className="relative py-20 sm:py-24 lg:py-28 bg-[#F7F5EE] border-t border-ink-900/[0.08] overflow-hidden"
+      aria-label="SPEAKUP Application"
+      className="relative scroll-mt-36 sm:scroll-mt-44 pt-20 sm:pt-28 pb-28 sm:pb-36 bg-gradient-to-b from-[#FAF8FF] via-white to-[#F5EFFF] overflow-hidden"
     >
-      <Container size="wide" className="relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start">
-          {/* Left Column: Reassurance, 10-Seat Dots Visualizer, Privacy (5 cols) */}
-          <motion.div 
-            className="lg:col-span-5 flex flex-col justify-start"
-            initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div>
-              <Eyebrow variant="coral" className="mb-3 text-xs sm:text-sm">
-                {isWaitlist ? 'Waitlist Open' : SITE_CONTENT.registration.eyebrow}
-              </Eyebrow>
+      {/* ── CONTINUOUS STORYTELLING BACKDROP ─────────────────────────────────── */}
+      <AmbientGlow
+        variant="lavender"
+        className="top-1/4 left-1/2 -translate-x-1/2 w-[950px] h-[600px]"
+      />
 
-              <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-display font-extrabold text-ink-950 dark:text-cream-50 tracking-tight leading-[1.12]">
-                {isWaitlist ? 'Join the Cohort 2 Priority Waitlist' : SITE_CONTENT.registration.headline}
-              </h2>
+      {/* Starting Organic Blob: sits top-left safely within section bounds */}
+      <OrganicBlob
+        variant="accent"
+        silhouette="soft-orb"
+        className="top-10 -left-20 w-[560px] h-[480px] pointer-events-none"
+      />
 
-              <p className="mt-3 text-sm sm:text-base text-ink-600 dark:text-cream-300 leading-relaxed max-w-lg font-normal">
-                {SITE_CONTENT.registration.subheadline}
-              </p>
+      {/* Ending Organic Blob: sits bottom-right safely within section bounds */}
+      <OrganicBlob
+        variant="primary"
+        silhouette="diagonal-flow"
+        className="bottom-10 -right-20 w-[540px] h-[460px] pointer-events-none"
+      />
 
-              {/* Calm Cohort Status Indicator with 10-Seat Board */}
-              <div className="my-6 p-5 sm:p-6 rounded-2xl bg-white border border-ink-900/[0.08] shadow-subtle-card">
-                <div className="flex items-center justify-between text-xs font-mono mb-3">
-                  <span className="font-bold text-teal-900 dark:text-mint-300 uppercase tracking-wider flex items-center gap-2 text-xs">
-                    <span className="w-2 h-2 rounded-full bg-emerald-600 flex-shrink-0 animate-live-pulse" />
-                    Cohort 01 Roster
-                  </span>
-                  <span className="text-teal-850 dark:text-mint-400 font-semibold font-mono text-xs px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-600/15">
-                    {seatsRemaining} Seats Remaining
-                  </span>
+      <Container size="wide" className="relative z-10 max-w-4xl">
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center mb-10 sm:mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#EDE9FE] mb-4 text-xs font-mono font-bold text-[#6D28D9] uppercase tracking-wider shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-[#6D28D9]" />
+            <span>Enrollment Application</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight text-[#0B0B0B] leading-tight">
+            Let’s get you in.
+          </h2>
+
+          <p className="mt-3 text-base text-slate-600 max-w-lg font-normal">
+            Takes 1 minute. No pressure. Take your time.
+          </p>
+
+          {/* Seat counter indicator */}
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F1F9E4] text-[#3F7300] border border-[#6EC000]/30 text-xs font-mono font-bold shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Only 15 seats total · {seatsRemaining} remaining</span>
+          </div>
+        </div>
+
+        {/* Elevated Form Container */}
+        <div className="relative bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-[32px] p-6 sm:p-10 lg:p-12 shadow-xl overflow-hidden">
+          {/* Top Specular Rim Lighting */}
+          <div 
+            aria-hidden="true" 
+            className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none" 
+          />
+          <AnimatePresence mode="wait">
+            {isSubmitted ? (
+              /* ══ THANK YOU CARD (Matching Section 6) ══ */
+              <motion.div
+                key="thank-you"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="text-left py-4"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-[#F1F9E4] text-[#3F7300] flex items-center justify-center font-bold mb-6">
+                  <CheckCircle2 className="w-7 h-7" />
                 </div>
-                
-                {/* 10 Seats Visualizer Grid */}
-                <div className="grid grid-cols-5 sm:grid-cols-10 gap-2 my-3 justify-items-center">
-                  {Array.from({ length: totalSeats }).map((_, sIdx) => {
-                    const isTaken = sIdx < (totalSeats - seatsRemaining);
-                    return (
-                      <div
-                        key={sIdx}
-                        title={isTaken ? `Seat ${sIdx + 1}: Reserved` : `Seat ${sIdx + 1}: Available (Click to reserve)`}
-                        className={cn(
-                          'w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center font-mono text-xs sm:text-sm font-bold transition-all duration-150',
-                          isTaken
-                            ? 'bg-teal-950 text-cream-100 dark:bg-teal-700 shadow-2xs'
-                            : 'bg-emerald-50 text-emerald-850 dark:bg-mint-400/20 dark:text-mint-300 border border-dashed border-emerald-500/70 [@media(hover:hover)]:hover:scale-110 [@media(hover:hover)]:hover:bg-emerald-100 hover:border-emerald-600 cursor-pointer active:scale-95'
-                        )}
-                      >
-                        {isTaken ? `✓` : sIdx + 1}
-                      </div>
-                    );
-                  })}
+
+                <h3 className="text-2xl sm:text-3xl font-black text-[#0B0B0B] mb-2 tracking-tight">
+                  You’re in the first step.
+                </h3>
+
+                <p className="text-sm font-mono text-slate-500 mb-6">
+                  Application Reference: <strong className="text-[#6D28D9]">{submissionId}</strong>
+                </p>
+
+                <p className="text-base text-slate-700 leading-relaxed mb-6">
+                  We got your application. Anfaz from our team will reach you on WhatsApp within 24 hours for a short chat. No pressure. Just a conversation.
+                </p>
+
+                <div className="p-6 rounded-2xl bg-[#F5F3FF] border border-[#EDE9FE] mb-8">
+                  <h4 className="text-xs font-mono uppercase tracking-widest text-[#6D28D9] font-bold mb-4">
+                    What happens next:
+                  </h4>
+                  <ol className="space-y-3 text-sm text-slate-700">
+                    <li className="flex items-start gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-[#6D28D9] text-white flex items-center justify-center text-xs font-mono font-bold flex-shrink-0 mt-0.5">1</span>
+                      <span><strong>A short chat with our team</strong> on WhatsApp to confirm your availability.</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-[#6D28D9] text-white flex items-center justify-center text-xs font-mono font-bold flex-shrink-0 mt-0.5">2</span>
+                      <span><strong>Confirm your seat and pay</strong> via secure payment link.</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-[#6D28D9] text-white flex items-center justify-center text-xs font-mono font-bold flex-shrink-0 mt-0.5">3</span>
+                      <span><strong>Orientation Day:</strong> Saturday 21 November 2026.</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-[#6D28D9] text-white flex items-center justify-center text-xs font-mono font-bold flex-shrink-0 mt-0.5">4</span>
+                      <span><strong>Day 1:</strong> Monday 23 November 2026.</span>
+                    </li>
+                  </ol>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-xs text-ink-700 dark:text-cream-200 mt-3 pt-3 border-t border-teal-700/10">
-                  <span className="font-medium text-teal-900 dark:text-cream-100">
-                    {isWaitlist ? 'Waitlist priority' : 'Strict 10-person maximum to ensure daily practice'}
-                  </span>
-                  <span className="font-mono text-xs text-coral-600 dark:text-coral-400 font-bold">
-                    ₹199 · Program Fee
-                  </span>
-                </div>
-              </div>
-
-              {/* What Happens After Submission */}
-              <div className="space-y-3 mt-6">
-                <h4 className="text-xs font-mono uppercase tracking-wider text-teal-900 dark:text-cream-100 font-bold">
-                  {SITE_CONTENT.registration.reassuranceTitle}
-                </h4>
-                <div className="relative pl-6 space-y-3 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[1px] before:bg-teal-700/20 dark:before:bg-mint-400/20">
-                  {SITE_CONTENT.registration.reassuranceSteps.map((step, idx) => (
-                    <div key={idx} className="relative flex items-start gap-3 text-xs sm:text-sm text-ink-700 dark:text-cream-200">
-                      <div className="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-white dark:bg-teal-900 border border-teal-700/30 dark:border-mint-400/30 text-teal-800 dark:text-mint-300 flex items-center justify-center font-mono text-[10px] font-bold shadow-2xs">
-                        {idx + 1}
-                      </div>
-                      <p className="leading-snug pl-0.5 font-normal">{step}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Privacy Pledge */}
-            <div className="mt-6 p-3.5 sm:p-4 rounded-2xl bg-white/80 dark:bg-teal-950/60 border border-teal-700/15 dark:border-cream-100/10 flex items-center gap-3 shadow-2xs">
-              <ShieldCheck className="w-5 h-5 text-teal-800 dark:text-mint-400 flex-shrink-0" />
-              <p className="text-xs sm:text-[13px] text-ink-600 dark:text-cream-300 leading-snug">
-                {SITE_CONTENT.registration.privacyPledge}
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Right Column: High-End Registration Form Card (7 cols) */}
-          <motion.div 
-            className="lg:col-span-7"
-            initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20, scale: 0.99 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Card variant="surface" padding="none" className="p-6 sm:p-8 lg:p-9 border border-ink-900/[0.1] dark:border-cream-100/10 shadow-card bg-white dark:bg-teal-900 rounded-3xl">
-              <AnimatePresence mode="wait">
-                {isSubmitted ? (
-                  /* Polished Editorial Success State with Direct WhatsApp Dispatch to 8089124307 */
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.96 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex flex-col items-center text-center py-6 sm:py-8"
+                <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                  <a
+                    href={buildWhatsAppUrl(submittedData, submissionId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-3.5 px-6 rounded-xl bg-[#6EC000] hover:bg-[#62AD00] text-black font-bold text-sm border border-black/15 shadow-sm text-center flex items-center justify-center gap-2"
                   >
-                    {/* Animated Drawn Check Mark */}
-                    <div className="w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-950/80 border-2 border-emerald-600 flex items-center justify-center text-emerald-800 dark:text-emerald-300 shadow-sm mb-4">
-                      <svg className="w-8 h-8" viewBox="0 0 48 48" fill="none">
-                        <motion.path
-                          d="M 12 24 L 20 32 L 36 16"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: 0.6, ease: 'easeOut' }}
-                        />
-                      </svg>
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Join the SPEAKUP WhatsApp updates</span>
+                  </a>
+                </div>
+              </motion.div>
+            ) : (
+              /* ══ STREAMLINED SINGLE-STEP REGISTRATION FORM ══ */
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {/* ── APPLICANT BASIC INFORMATION ────────────────────────────── */}
+                <div className="space-y-5">
+                  <div>
+                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-700 font-bold mb-1.5">
+                      Full Name *
+                    </label>
+                    <input
+                      {...register('fullName')}
+                      placeholder="Your full name"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 text-sm"
+                    />
+                    {errors.fullName && (
+                      <p className="mt-1 text-xs text-red-600 font-medium">{errors.fullName.message}</p>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-700 font-bold mb-1.5">
+                        Age (15 to 30) *
+                      </label>
+                      <input
+                        type="number"
+                        {...register('age', { valueAsNumber: true })}
+                        placeholder="e.g. 21"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 text-sm"
+                      />
+                      {errors.age && (
+                        <p className="mt-1 text-xs text-red-600 font-medium">{errors.age.message}</p>
+                      )}
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-ink-900 dark:text-cream-50 tracking-tight">
-                      Registration Received!
-                    </h3>
+                    <div>
+                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-700 font-bold mb-1.5">
+                        WhatsApp Number *
+                      </label>
+                      <input
+                        type="tel"
+                        {...register('phone')}
+                        placeholder="e.g. 9876543210"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 text-sm"
+                      />
+                      {errors.phone && (
+                        <p className="mt-1 text-xs text-red-600 font-medium">{errors.phone.message}</p>
+                      )}
+                    </div>
+                  </div>
 
-                    <p className="mt-2 text-sm sm:text-base text-ink-600 dark:text-cream-200 max-w-md leading-relaxed">
-                      Your application has been recorded. Send your details directly to our coordinator on WhatsApp to confirm your seat.
-                    </p>
-
-                    <div className="mt-3 px-4 py-1.5 rounded-full bg-cream-100 dark:bg-teal-950 text-xs font-mono text-ink-700 dark:text-cream-300 border border-ink-900/10 dark:border-cream-100/10">
-                      Registration ID: <span className="font-bold text-teal-700 dark:text-mint-400">{submissionId}</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-700 font-bold mb-1.5">
+                        City and State *
+                      </label>
+                      <input
+                        {...register('cityState')}
+                        placeholder="e.g. Calicut, Kerala"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 text-sm"
+                      />
+                      {errors.cityState && (
+                        <p className="mt-1 text-xs text-red-600 font-medium">{errors.cityState.message}</p>
+                      )}
                     </div>
 
-                    {/* Primary Action Card: Direct WhatsApp to 8089124307 */}
-                    <div className="mt-6 p-5 sm:p-6 rounded-2xl bg-emerald-950 text-cream-100 border border-emerald-800/80 w-full text-left shadow-elevated-card">
-                      <div className="flex items-center gap-3 mb-2.5">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500 text-teal-950 flex items-center justify-center flex-shrink-0">
-                          <MessageCircle className="w-5 h-5 text-white" />
+                    <div>
+                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-700 font-bold mb-1.5">
+                        Email (Optional)
+                      </label>
+                      <input
+                        type="email"
+                        {...register('email')}
+                        placeholder="you@email.com"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 text-sm"
+                      />
+                      {errors.email && (
+                        <p className="mt-1 text-xs text-red-600 font-medium">{errors.email.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Honeypot field (hidden) */}
+                  <input
+                    type="text"
+                    {...register('hp_country')}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    className="hidden"
+                    aria-hidden="true"
+                  />
+
+                  {/* Conditional Under-18 Box */}
+                  {isUnder18 && (
+                    <div className="p-4 sm:p-5 rounded-2xl bg-[#F5F3FF] border border-[#6D28D9]/30 space-y-4">
+                      <div className="flex items-center gap-2 text-xs font-bold text-[#6D28D9] font-mono uppercase">
+                        <AlertCircle className="w-4 h-4" />
+                        <span>Under 18 Guardian Details (Required by Law)</span>
+                      </div>
+                      <p className="text-xs text-slate-600">
+                        Because you are under 18, Indian DPDP rules require parent or guardian consent before participating.
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <input
+                            {...register('guardianName')}
+                            placeholder="Parent / Guardian Full Name *"
+                            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-white"
+                          />
+                          {errors.guardianName && (
+                            <p className="mt-1 text-xs text-red-600 font-medium">{errors.guardianName.message}</p>
+                          )}
                         </div>
                         <div>
-                          <h4 className="text-base font-bold text-white font-display">
-                            Send Details to WhatsApp Coordinator
-                          </h4>
-                          <p className="text-xs text-emerald-300 font-mono">
-                            WhatsApp: +91 8089124307
-                          </p>
+                          <input
+                            type="tel"
+                            {...register('guardianPhone')}
+                            placeholder="Parent WhatsApp Number *"
+                            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-white"
+                          />
+                          {errors.guardianPhone && (
+                            <p className="mt-1 text-xs text-red-600 font-medium">{errors.guardianPhone.message}</p>
+                          )}
                         </div>
                       </div>
-                      <p className="text-xs text-cream-200 leading-relaxed">
-                        Your complete application has been formatted. Click below to message our coordinator directly with your details:
-                      </p>
-
-                      <a
-                        href={buildWhatsAppUrl(submittedData, submissionId)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => trackEvent('whatsapp_click', { target: 'coordinator', registration_id: submissionId })}
-                        className="mt-4 inline-flex items-center justify-center gap-2.5 w-full py-4 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-teal-950 font-bold text-sm sm:text-base shadow-sm transition-all"
-                      >
-                        <MessageCircle className="w-5 h-5 flex-shrink-0" />
-                        <span>Open WhatsApp (+91 8089124307) →</span>
-                      </a>
-                    </div>
-
-                    {/* Applicant Details Recap Card */}
-                    {submittedData && (
-                      <div className="mt-4 p-4 rounded-xl bg-ink-50 dark:bg-teal-950/60 border border-ink-900/10 dark:border-cream-100/10 w-full text-left text-xs space-y-1.5 text-ink-700 dark:text-cream-300">
-                        <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-teal-900 dark:text-mint-300 pb-1 border-b border-ink-900/10">
-                          Application Summary
-                        </div>
-                        <div className="grid grid-cols-2 gap-x-2 gap-y-1 pt-1">
-                          <div><span className="font-semibold text-ink-900 dark:text-cream-100">Name:</span> {submittedData.fullName}</div>
-                          <div><span className="font-semibold text-ink-900 dark:text-cream-100">Age:</span> {submittedData.age}</div>
-                          <div><span className="font-semibold text-ink-900 dark:text-cream-100">Phone:</span> {submittedData.countryCode} {submittedData.phone}</div>
-                          <div><span className="font-semibold text-ink-900 dark:text-cream-100">City:</span> {submittedData.cityCountry}</div>
-                          <div className="col-span-2 truncate"><span className="font-semibold text-ink-900 dark:text-cream-100">Email:</span> {submittedData.email}</div>
-                          <div className="col-span-2"><span className="font-semibold text-ink-900 dark:text-cream-100">Fee:</span> ₹199 (Pay upon orientation)</div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Secondary Action: Community WhatsApp Group */}
-                    <div className="mt-5 pt-4 border-t border-ink-900/10 dark:border-cream-100/10 w-full text-center">
-                      <p className="text-xs text-ink-500 dark:text-cream-400 mb-2">
-                        You can also join the general cohort community for schedule & updates:
-                      </p>
-                      <a
-                        href={SITE_CONTENT.brand.whatsappInviteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => trackEvent('whatsapp_click', { target: 'community_group', placement: 'registration_success' })}
-                        className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-teal-800 dark:text-mint-300 hover:underline"
-                      >
-                        <span>Join MYSB Community Group →</span>
-                      </a>
-                    </div>
-                  </motion.div>
-                ) : (
-                  /* Interactive Form with Floating Labels & Conditional Guardian Section */
-                  <motion.form
-                    key="form"
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="space-y-4 sm:space-y-5"
-                    noValidate
-                  >
-                    {/* Anti-Spam Honeypot Field (Hidden from Real Users) */}
-                    <div className="hidden" aria-hidden="true">
-                      <input
-                        type="text"
-                        tabIndex={-1}
-                        autoComplete="off"
-                        {...register('hp_country')}
-                      />
-                    </div>
-
-                    {/* Form Headline */}
-                    <div className="pb-3 mb-1 border-b border-ink-900/10 dark:border-cream-100/10 flex items-center justify-between gap-3">
-                      <div>
-                        <h3 className="text-lg sm:text-xl font-bold font-display text-ink-900 dark:text-cream-50 leading-tight">
-                          Participant Details
-                        </h3>
-                        <p className="text-xs sm:text-[13px] text-ink-500 dark:text-cream-400 mt-0.5">
-                          Takes ~2 minutes · ₹199 Fee
-                        </p>
-                      </div>
-                      <span className="text-xs font-mono text-coral-600 dark:text-coral-400 bg-coral-50 dark:bg-coral-950/60 px-2.5 py-1 rounded-full border border-coral-500/20 font-bold">
-                        ₹199 Program Fee
-                      </span>
-                    </div>
-
-                    {submitError && (
-                      <div className="p-3.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-500/30 text-xs sm:text-sm text-red-600 dark:text-red-400 flex items-start gap-2">
-                        <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                        <span>{submitError}</span>
-                      </div>
-                    )}
-
-                    {/* 01. Full Name */}
-                    <Field
-                      label="Full Name *"
-                      placeholder="e.g. Anfas KP"
-                      error={errors.fullName?.message}
-                      {...register('fullName')}
-                    />
-
-                    {/* 02. Age & Phone */}
-                    <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5 sm:gap-4">
-                      <div className="sm:col-span-4">
-                        <Field
-                          label="Age (15–30) *"
-                          type="number"
-                          min={15}
-                          max={30}
-                          placeholder="e.g. 21"
-                          error={errors.age?.message}
-                          {...register('age')}
-                        />
-                      </div>
-
-                      <div className="sm:col-span-8">
-                        <Field
-                          label="Phone / WhatsApp Number *"
-                          type="tel"
-                          placeholder="e.g. 98765 43210"
-                          error={errors.phone?.message}
-                          {...register('phone')}
-                        />
-                      </div>
-                    </div>
-
-                    {/* 03. Email & City/Country */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                      <Field
-                        label="Email Address *"
-                        type="email"
-                        placeholder="yourname@gmail.com"
-                        error={errors.email?.message}
-                        {...register('email')}
-                      />
-
-                      <Field
-                        label="City & Country *"
-                        placeholder="e.g. Kochi, Kerala"
-                        error={errors.cityCountry?.message}
-                        {...register('cityCountry')}
-                      />
-                    </div>
-
-                    {/* 04. Preferred Language & Optional Note */}
-                    <Field
-                      label="Anything you'd like us to know (Optional)"
-                      placeholder="Tell us gently about your speaking journey or goals"
-                      {...register('notes')}
-                    />
-
-                    {/* Conditional Under-18 Guardian Section (Slides open if age < 18) */}
-                    <AnimatePresence>
-                      {isUnder18 && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                          className="overflow-hidden"
-                        >
-                          <div className="p-4 rounded-2xl bg-teal-500/10 dark:bg-teal-950/80 border border-teal-600/30 space-y-3 my-2">
-                            <div className="flex items-center gap-2.5">
-                              <ShieldCheck className="w-5 h-5 text-teal-700 dark:text-mint-400" />
-                              <div>
-                                <h4 className="text-xs sm:text-sm font-bold text-ink-900 dark:text-cream-50 font-display">
-                                  Parent or Guardian Information (Under 18)
-                                </h4>
-                                <p className="text-[11px] sm:text-xs text-ink-600 dark:text-cream-300">
-                                  Required for participants aged 15 to 17.
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                              <Field
-                                label="Guardian Full Name *"
-                                placeholder="Parent or guardian name"
-                                error={errors.guardianName?.message}
-                                {...register('guardianName')}
-                              />
-                              <Field
-                                label="Guardian Phone Number *"
-                                type="tel"
-                                placeholder="Parent or guardian phone"
-                                error={errors.guardianPhone?.message}
-                                {...register('guardianPhone')}
-                              />
-                            </div>
-
-                            <label className="flex items-start gap-2.5 cursor-pointer pt-1">
-                              <input
-                                type="checkbox"
-                                className="mt-0.5 w-4 h-4 rounded text-teal-600 focus:ring-teal-600 dark:bg-teal-900 border-ink-900/20"
-                                {...register('guardianConsent')}
-                              />
-                              <span className="text-xs sm:text-[13px] text-ink-700 dark:text-cream-200 leading-snug">
-                                I confirm that my parent or legal guardian has reviewed the MYSB program details and consents to my participation. *
-                              </span>
-                            </label>
-                            {errors.guardianConsent && (
-                              <p className="text-xs text-red-600 dark:text-red-400">
-                                {errors.guardianConsent.message}
-                              </p>
-                            )}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    {/* Data Consent Checkbox */}
-                    <div className="pt-1">
-                      <label className="flex items-start gap-3 cursor-pointer">
+                      <label className="flex items-start gap-2 text-xs text-slate-700 cursor-pointer pt-1">
                         <input
                           type="checkbox"
-                          className="mt-0.5 w-4 h-4 rounded text-teal-600 focus:ring-teal-600 dark:bg-teal-900 border-ink-900/20 flex-shrink-0"
-                          {...register('consentDataUse')}
+                          {...register('guardianConsent')}
+                          className="mt-0.5 rounded text-[#6D28D9] focus:ring-[#6D28D9]"
                         />
-                        <span className="text-xs sm:text-[13px] text-ink-600 dark:text-cream-300 leading-snug">
-                          I agree to confidential contact processing by the MYSB team. No audio or identifying information is shared without written consent. *
-                        </span>
+                        <span>My parent or guardian knows and agrees to me joining SPEAKUP.</span>
                       </label>
-                      {errors.consentDataUse && (
-                        <p className="mt-1 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
-                          <span>{errors.consentDataUse.message}</span>
-                        </p>
+                      {errors.guardianConsent && (
+                        <p className="text-xs text-red-600 font-medium">{errors.guardianConsent.message}</p>
                       )}
                     </div>
+                  )}
+                </div>
 
-                    {/* Primary Dominant Submit Action */}
-                    <div className="pt-2">
-                      <Button
-                        type="submit"
-                        variant="coral"
-                        size="lg"
-                        loading={isSubmitting}
-                        icon={<ArrowRight className="w-5 h-5" />}
-                        className="w-full text-center shadow-md py-3.5 sm:py-4 text-base font-bold"
-                        trackingName="submit_registration_form"
-                      >
-                        {isWaitlist ? 'Join Priority Waitlist' : 'Submit Cohort 1 Application (₹199)'}
-                      </Button>
-                      <div className="flex items-center justify-center gap-1.5 mt-2.5 text-xs font-mono text-ink-600 dark:text-cream-300 text-center">
-                        <ShieldCheck className="w-4 h-4 text-teal-700 dark:text-mint-400 flex-shrink-0" />
-                        <span>₹199 Program Fee · Instant confirmation · Confidential</span>
-                      </div>
-                    </div>
-                  </motion.form>
-                )}
-              </AnimatePresence>
-            </Card>
-          </motion.div>
+                {/* ── REQUIRED CONSENTS ───────────────────────────────────────── */}
+                <div className="pt-4 border-t border-slate-200/80 space-y-3.5">
+                  <label className="flex items-start gap-3 text-xs sm:text-[13px] text-slate-700 leading-relaxed cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      {...register('consentRecording')}
+                      className="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#6D28D9] focus:ring-[#6D28D9] flex-shrink-0 cursor-pointer"
+                    />
+                    <span>
+                      <strong className="text-slate-900 font-semibold">Required:</strong> I agree to sessions being recorded strictly for program quality and SLP review. (Recordings remain private and are never shared publicly).
+                    </span>
+                  </label>
+                  {errors.consentRecording && (
+                    <p className="text-xs text-red-600 font-medium pl-7">{errors.consentRecording.message}</p>
+                  )}
+
+                  <label className="flex items-start gap-3 text-xs sm:text-[13px] text-slate-700 leading-relaxed cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      {...register('consentPrivacy')}
+                      className="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#6D28D9] focus:ring-[#6D28D9] flex-shrink-0 cursor-pointer"
+                    />
+                    <span>
+                      <strong className="text-slate-900 font-semibold">Required:</strong> I have read and agree to the Privacy and Consent terms.
+                    </span>
+                  </label>
+                  {errors.consentPrivacy && (
+                    <p className="text-xs text-red-600 font-medium pl-7">{errors.consentPrivacy.message}</p>
+                  )}
+                </div>
+
+                {/* ── SUBMIT BUTTON & TRUST FOOTER ────────────────────────────── */}
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    loading={isSubmitting}
+                    icon={<ArrowRight className="w-4 h-4 text-black" />}
+                    className="w-full sm:w-auto px-9 py-3.5 text-sm font-bold shadow-md shadow-[#6EC000]/25 rounded-xl"
+                  >
+                    Send my application
+                  </Button>
+
+                  <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#6EC000]" />
+                    <span>Direct WhatsApp confirmation with Zlaqa Team</span>
+                  </div>
+                </div>
+
+                {/* ── SUBMIT BUTTON & TRUST FOOTER ────────────────────────────── */}
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    loading={isSubmitting}
+                    icon={<ArrowRight className="w-4 h-4 text-black" />}
+                    className="w-full sm:w-auto px-9 py-3.5 text-sm font-bold shadow-md shadow-[#6EC000]/25 rounded-xl"
+                  >
+                    Send my application
+                  </Button>
+
+                  <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#6EC000]" />
+                    <span>Direct WhatsApp confirmation with Anfaz</span>
+                  </div>
+                </div>
+              </form>
+            )}
+          </AnimatePresence>
         </div>
       </Container>
     </section>

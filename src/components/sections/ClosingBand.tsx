@@ -1,90 +1,62 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, MessageCircle, Mic, Users, Star } from 'lucide-react';
+import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { SITE_CONTENT } from '../../content/content';
 import { trackEvent } from '../../lib/analytics';
-
-const floatingPills = [
-  { icon: <Mic className="w-3.5 h-3.5" />, text: 'Daily 20-min practice', delay: 0 },
-  { icon: <Users className="w-3.5 h-3.5" />, text: '9 peers who get it', delay: 0.1 },
-  { icon: <Star className="w-3.5 h-3.5" />, text: '₹199 Program Fee', delay: 0.2 },
-];
+import { PaperWaveTransition } from '../ui/PaperWaveTransition';
 
 export const ClosingBand: React.FC = () => {
   return (
-    <section className="relative py-16 sm:py-20 lg:py-24 bg-teal-950 text-cream-100 overflow-hidden">
-
-      {/* Animated ambient blobs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{ scale: [1, 1.15, 1], opacity: [0.25, 0.45, 0.25] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-teal-600/20 blur-3xl"
-        />
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full bg-coral-500/20 blur-3xl"
-        />
-        <motion.div
-          animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.25, 0.1] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-mint-400/10 blur-3xl"
-        />
+    <section id="closing-cta" className="relative pt-36 sm:pt-44 lg:pt-48 pb-24 sm:pb-28 lg:pb-32 bg-gradient-to-br from-[#4C1D95] via-[#3B0764] to-[#2E1065] text-white overflow-hidden">
+      {/* Top Transition: Smooth Grand Layered Waves into Deep Violet */}
+      <div className="absolute top-0 left-0 right-0 pointer-events-none select-none z-10 -mt-1 opacity-95">
+        <PaperWaveTransition position="top" variant="faq-to-footer" />
       </div>
 
-      <Container size="wide" className="relative z-10">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+      {/* Atmospheric ambient lighting */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 -left-32 w-[600px] h-[600px] rounded-full bg-[#6D28D9]/40 blur-[100px]" />
+        <div className="absolute bottom-0 right-0 w-[550px] h-[550px] rounded-full bg-[#6EC000]/15 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse,rgba(139,92,246,0.18),transparent_70%)]" />
+      </div>
 
-          {/* Floating feature pills */}
+      <Container size="wide" className="relative z-20">
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+          
+          {/* Section Pill Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-2.5 mb-6 sm:mb-8"
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-mono font-bold text-violet-200 uppercase tracking-widest backdrop-blur-md mb-6 shadow-sm"
           >
-            {floatingPills.map((pill, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, scale: 0.85 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: pill.delay + 0.2, duration: 0.4 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/8 border border-white/12 text-cream-200 text-xs font-semibold backdrop-blur-md"
-              >
-                <span className="text-mint-400">{pill.icon}</span>
-                {pill.text}
-              </motion.span>
-            ))}
+            <span className="w-2 h-2 rounded-full bg-[#6EC000] animate-pulse" />
+            <span>Cohort 01 Enrollment · Strictly 15 Seats</span>
           </motion.div>
 
-          {/* Big emotional headline */}
+          {/* Heading with deliberate line break */}
           <motion.h2
-            initial={{ opacity: 0, y: 28 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight leading-tight text-white max-w-3xl"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[1.12] text-white max-w-4xl mx-auto"
           >
-            Your voice has a{' '}
-            <span className="font-serif italic font-normal text-mint-400">
-              place here.
-            </span>
+            Your voice is <br className="hidden sm:inline" />already there.
           </motion.h2>
 
-          {/* Subtext */}
+          {/* Subheading */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-6 text-base sm:text-lg text-cream-300 leading-relaxed max-w-xl"
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="mt-5 sm:mt-6 text-xl sm:text-2xl md:text-3xl text-violet-200 font-serif italic max-w-xl mx-auto leading-relaxed"
           >
-            8 weeks. 10 people. Guided clinical support with zero judgment.{' '}
-            <span className="text-cream-100 font-semibold">Your cohort is waiting.</span>
+            {SITE_CONTENT.closingCta.subheading}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -92,18 +64,18 @@ export const ClosingBand: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-4 w-full"
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="mt-9 sm:mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-5 w-full"
           >
             <Button
               href="#register"
-              variant="coral"
+              variant="primary"
               size="lg"
-              icon={<ArrowRight className="w-5 h-5" />}
-              trackingName="closing_band_join"
-              className="w-full sm:w-auto shadow-glow-coral text-base px-10"
+              icon={<ArrowRight className="w-5 h-5 text-black" />}
+              trackingName="closing_band_apply"
+              className="w-full sm:w-auto text-base px-10 shadow-lg shadow-black/25"
             >
-              Join the Program
+              {SITE_CONTENT.closingCta.buttonText}
             </Button>
 
             <a
@@ -111,24 +83,30 @@ export const ClosingBand: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent('whatsapp_click', { placement: 'closing_band' })}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/18 text-cream-100 border border-white/15 text-sm font-semibold transition-all backdrop-blur-md w-full sm:w-auto text-center hover:border-mint-400/40"
+              className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/25 text-sm font-bold transition-all backdrop-blur-md w-full sm:w-auto text-center shadow-sm"
             >
-              <MessageCircle className="w-4.5 h-4.5 text-mint-400" />
-              <span>Have a question? Chat on WhatsApp</span>
+              <MessageCircle className="w-4 h-4 text-[#6EC000]" />
+              <span>Questions?</span>
             </a>
           </motion.div>
 
-          {/* Small reassurance line */}
-          <motion.p
+          {/* Key dates note */}
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.65, duration: 0.5 }}
-            className="mt-8 text-xs font-mono text-cream-400 tracking-widest uppercase"
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs sm:text-sm font-medium text-violet-200/90 tracking-wide text-center"
           >
-            ₹199 · Confidential · 8-Week Cohort
-          </motion.p>
-
+            <span className="inline-flex items-center gap-1.5 text-white/95">
+              <Sparkles className="w-3.5 h-3.5 text-[#6EC000] shrink-0" />
+              <span>Apply by 19 November</span>
+            </span>
+            <span className="hidden sm:inline text-violet-400/60">•</span>
+            <span>Orientation 21 November</span>
+            <span className="hidden sm:inline text-violet-400/60">•</span>
+            <span className="text-white/90">Program starts 23 November</span>
+          </motion.div>
         </div>
       </Container>
     </section>

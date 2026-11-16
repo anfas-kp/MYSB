@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { GlassCard } from '../ui/GlassCard';
+import { Container } from '../ui/Container';
+import { AmbientGlow } from '../ui/AmbientGlow';
+import { OrganicBlob } from '../ui/OrganicBlob';
 
 interface StatFact {
   tag: string;
@@ -23,10 +27,10 @@ const FACTS: StatFact[] = [
   },
   {
     tag: '02 / CAPACITY',
-    value: 10,
+    value: 15,
     suffix: '',
     label: 'Strict Circle Capacity',
-    detail: 'Strictly capped at 10 participants. A small cohort protects psychological safety and guarantees everyone speaks daily.',
+    detail: 'Strictly capped at 15 participants. A small cohort protects psychological safety and guarantees everyone speaks daily.',
     highlight: true,
     metaRight: 'Hard Maximum',
   },
@@ -35,23 +39,24 @@ const FACTS: StatFact[] = [
     value: 20,
     suffix: 'Min',
     label: 'Daily Micro-Practice',
-    detail: 'Gentle vocal warm-ups and diaphragmatic pacing that fit comfortably into school, college, or work routines.',
+    detail: '10 mins voice drills in the Zlaqa app + 10 mins Google Meet peer practice that fits into school, college, or work routines.',
     metaRight: 'Guaranteed',
   },
   {
     tag: '04 / EXPRESSION',
-    value: 3,
-    suffix: 'Min+',
-    label: 'Daily Audio Journaling',
-    detail: 'Continuous voice recording in the Zlaqa app with visual prompts to track rhythm awareness and speech progression.',
+    value: 8,
+    suffix: 'Wks',
+    label: 'Audio Journaling & Guidance',
+    detail: 'Continuous speech tracking in the Zlaqa app with weekly personalized feedback from licensed Speech-Language Pathologists.',
     metaRight: 'Guaranteed',
   },
 ];
 
-const CountUpStat: React.FC<{ value: number; suffix?: string; prefersReduced: boolean }> = ({
+const CountUpStat: React.FC<{ value: number; suffix?: string; prefersReduced: boolean; highlight?: boolean }> = ({
   value,
   suffix,
   prefersReduced,
+  highlight,
 }) => {
   const [count, setCount] = useState(prefersReduced ? value : 0);
   const ref = useRef<HTMLDivElement>(null);
@@ -83,12 +88,14 @@ const CountUpStat: React.FC<{ value: number; suffix?: string; prefersReduced: bo
   }, [isInView, value, prefersReduced]);
 
   return (
-    <div ref={ref} className="mt-8 sm:mt-10 mb-4 flex items-baseline select-none">
-      <span className="font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl tracking-tight text-ink-900 leading-none">
+    <div ref={ref} className="mt-6 mb-4 flex items-baseline select-none">
+      <span className={`font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl tracking-tight leading-none tabular-nums ${
+        highlight ? 'text-[#6D28D9]' : 'text-slate-900'
+      }`}>
         {count}
       </span>
       {suffix && (
-        <span className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#FF7A5C] leading-none ml-1.5 sm:ml-2">
+        <span className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#3F7300] leading-none ml-1.5 sm:ml-2">
           {suffix}
         </span>
       )}
@@ -103,81 +110,104 @@ export const Numbers: React.FC = () => {
     <section 
       id="numbers"
       aria-label="Program Constraints and Numbers"
-      className="relative py-16 sm:py-20 lg:py-24 bg-[#F7F5EE] overflow-hidden select-none"
+      className="relative scroll-mt-32 sm:scroll-mt-40 pt-28 pb-20 sm:pt-36 sm:pb-24 bg-gradient-to-b from-[#FAF8FF] via-white to-white overflow-hidden select-none"
     >
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
-        <div className="relative">
-          {/* Subtle Extended Top Line */}
-          <div 
-            aria-hidden="true"
-            className="absolute -top-px -left-4 -right-4 sm:-left-8 sm:-right-8 border-t border-ink-900/[0.12] pointer-events-none" 
-          />
+      {/* ── CONTINUOUS STORYTELLING BACKDROP ─────────────────────────────────── */}
+      <AmbientGlow
+        variant="dual"
+        className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[550px]"
+      />
 
-          {/* 4 Architectural Columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-ink-900/[0.12]">
-            {FACTS.map((stat, idx) => (
-              <motion.div
-                key={stat.tag}
-                initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{
-                  duration: prefersReduced ? 0.2 : 0.45,
-                  delay: prefersReduced ? 0 : idx * 0.06,
-                  ease: [0.23, 1, 0.32, 1],
-                }}
-                className={`p-6 sm:p-8 lg:p-9 flex flex-col justify-between transition-[transform,background-color] duration-200 ease-out [@media(hover:hover)]:hover:-translate-y-1 cursor-default group ${
-                  stat.highlight ? 'bg-[#EFECE3] dark:bg-mint-400/[0.04]' : 'bg-transparent hover:bg-white/50'
-                }`}
+      {/* Starting Orb Blob: sits top-right safely within section bounds */}
+      <OrganicBlob
+        variant="secondary"
+        silhouette="soft-orb"
+        className="top-10 -right-20 w-[540px] h-[460px] pointer-events-none"
+      />
+
+      <Container size="wide" className="relative z-10 max-w-6xl">
+        {/* Architectural Section Header */}
+        <div className="max-w-2xl mb-12 sm:mb-16 text-left">
+          <div className="inline-flex items-center gap-2 mb-4 font-mono text-xs font-bold text-[#6D28D9] tracking-widest uppercase">
+            <span className="w-2 h-2 rounded-full bg-[#6EC000] flex-shrink-0" />
+            <span>The Philosophy of Small Numbers</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#0B0B0B] leading-tight">
+            Strict boundaries.{' '}
+            <span className="font-serif italic font-normal text-[#6D28D9]">
+              By design.
+            </span>
+          </h2>
+
+          <p className="mt-4 text-base text-slate-600 leading-relaxed font-normal">
+            Why 15 seats, 8 weeks, and 20 daily minutes work when everything else feels overwhelming.
+          </p>
+        </div>
+
+        {/* 4 Architectural Floating Glass Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+          {FACTS.map((stat, idx) => (
+            <motion.div
+              key={stat.tag}
+              initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{
+                duration: prefersReduced ? 0.2 : 0.45,
+                delay: prefersReduced ? 0 : idx * 0.06,
+                ease: [0.23, 1, 0.32, 1],
+              }}
+              className="h-full"
+            >
+              <GlassCard
+                variant={stat.highlight ? 'violet' : 'default'}
+                hoverEffect
+                className="h-full p-6 sm:p-7 flex flex-col justify-between group"
               >
                 <div>
-                  {/* Top Kicker Row */}
-                  <div className="flex items-center justify-between min-h-[26px]">
-                    <span className="font-mono text-xs sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-ink-600 group-hover:text-teal-900 transition-colors">
+                  {/* Fixed height header row keeps all 4 big numbers aligned */}
+                  <div className="flex h-8 items-center justify-between gap-2">
+                    <span className="font-mono text-xs sm:text-[12px] font-semibold tracking-wider uppercase text-slate-500 whitespace-nowrap group-hover:text-[#6D28D9] transition-colors">
                       {stat.tag}
                     </span>
                     {stat.highlight && (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] sm:text-[10.5px] font-mono font-bold tracking-wider uppercase bg-[#DDF1E8] text-[#1B634B] border border-[#BDE5D3]">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-live-pulse" />
-                        <span>STRICT CAP</span>
+                      <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-[#6D28D9]/20 bg-white/90 px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#6D28D9] shadow-2xs">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#6EC000] animate-live-pulse" />
+                        <span>Strict Cap</span>
                       </span>
                     )}
                   </div>
 
-                  {/* Giant Stat Number + Coral Suffix */}
+                  {/* Giant Stat Number */}
                   <CountUpStat
                     value={stat.value}
                     suffix={stat.suffix}
                     prefersReduced={prefersReduced}
+                    highlight={stat.highlight}
                   />
 
                   {/* Title */}
-                  <h3 className="font-display font-bold text-lg sm:text-xl text-ink-900 leading-snug mt-4 mb-2">
+                  <h3 className="font-display font-bold text-lg sm:text-xl text-[#0B0B0B] leading-snug mt-4 mb-2">
                     {stat.label}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-xs sm:text-[13.5px] text-ink-600 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-[13.5px] text-slate-600 leading-relaxed font-normal">
                     {stat.detail}
                   </p>
                 </div>
 
-                {/* Bottom Metadata Line: Standard / Guaranteed */}
-                <div className="mt-12 sm:mt-16 flex items-center justify-between text-xs sm:text-[12.5px] font-mono text-ink-500">
+                {/* Bottom Metadata Line */}
+                <div className="mt-8 sm:mt-10 pt-4 border-t border-slate-200/70 flex items-center justify-between text-xs sm:text-[12px] font-mono text-slate-400">
                   <span>Standard</span>
-                  <span>{stat.metaRight}</span>
+                  <span className="font-semibold text-slate-700">{stat.metaRight}</span>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Subtle Extended Bottom Line */}
-          <div 
-            aria-hidden="true"
-            className="absolute -bottom-px -left-4 -right-4 sm:-left-8 sm:-right-8 border-b border-ink-900/[0.12] pointer-events-none" 
-          />
+              </GlassCard>
+            </motion.div>
+          ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 };
