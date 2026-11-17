@@ -13,6 +13,7 @@ export interface NavProps {}
 export const Nav: React.FC<NavProps> = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection]   = useState<string>('');
+  const [isScrolled, setIsScrolled]         = useState(false);
   const prefersReduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll();
@@ -20,7 +21,9 @@ export const Nav: React.FC<NavProps> = () => {
 
   useEffect(() => {
     const onScroll = () => {
-      const sections = ['problem', 'daily-rhythm', 'features', 'journey', 'pricing', 'faq'];
+      setIsScrolled(window.scrollY > 80);
+
+      const sections = ['problem', 'features', 'daily-rhythm', 'journey', 'pricing', 'faq'];
       const pos = window.scrollY + 160;
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
@@ -57,35 +60,47 @@ export const Nav: React.FC<NavProps> = () => {
         />
       )}
 
-      {/* ── 1. FLOATING GLASS CAPSULE NAVBAR ──────────────────────────────── */}
-      <header className="fixed left-0 right-0 top-0 z-50 pointer-events-none pt-4 sm:pt-6 px-4 sm:px-6 lg:px-8 transition-all duration-300">
+      {/* ── 1. FLOATING GLASS CAPSULE NAVBAR (SCROLL-MORPHING HUD) ──────── */}
+      <header className={cn(
+        'fixed left-0 right-0 top-0 z-50 pointer-events-none px-4 sm:px-6 lg:px-8 transition-all duration-300 ease-out',
+        isScrolled ? 'pt-2.5 sm:pt-3' : 'pt-4 sm:pt-6'
+      )}>
         <div
           className={cn(
-            'mx-auto flex max-w-[1380px] w-full items-center justify-between',
-            'px-5 sm:px-7 lg:px-8 py-3 sm:py-3.5',
+            'mx-auto flex w-full items-center justify-between pointer-events-auto transition-all duration-300 ease-out',
             'rounded-full bg-white/96 backdrop-blur-[24px]',
-            'border border-white/85 shadow-[0_16px_40px_rgba(109,40,217,0.08),0_2px_10px_rgba(0,0,0,0.03)]',
-            'pointer-events-auto transition-all duration-300'
+            isScrolled
+              ? 'max-w-[1240px] px-4 sm:px-6 py-2 sm:py-2.5 min-h-[58px] border border-slate-200/90 shadow-[0_12px_32px_rgba(109,40,217,0.06),0_2px_8px_rgba(0,0,0,0.04)]'
+              : 'max-w-[1380px] px-5 sm:px-7 lg:px-8 py-3 sm:py-3.5 min-h-[74px] border border-white/85 shadow-[0_16px_40px_rgba(109,40,217,0.08),0_2px_10px_rgba(0,0,0,0.03)]'
           )}
-          style={{ minHeight: '74px' }}
         >
           {/* LEFT: Logo + Thin Vertical Separator */}
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-5">
             <a
               href="#"
               onClick={() => handleLink('#', 'Logo')}
               className="flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9] rounded-lg"
               aria-label="SPEAKUP Home"
             >
-              <img src={speakupLogo} alt="SPEAKUP" className="h-7 w-auto sm:h-8 lg:h-8.5 object-contain" />
+              <img 
+                src={speakupLogo} 
+                alt="SPEAKUP" 
+                className={cn(
+                  "w-auto object-contain transition-all duration-300",
+                  isScrolled ? "h-6 sm:h-6.5 lg:h-7" : "h-7 sm:h-8 lg:h-8.5"
+                )} 
+              />
             </a>
 
             {/* Thin vertical separator line */}
-            <div className="hidden lg:block h-6 w-[1px] bg-slate-200/90" aria-hidden="true" />
+            <div className={cn(
+              "hidden lg:block w-[1px] bg-slate-200/90 transition-all duration-300",
+              isScrolled ? "h-5" : "h-6"
+            )} aria-hidden="true" />
           </div>
 
           {/* CENTER: Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5" aria-label="Main Navigation">
             {SITE_CONTENT.nav.links.map(link => {
               const active = activeSection === link.href;
               return (
@@ -94,7 +109,8 @@ export const Nav: React.FC<NavProps> = () => {
                   href={link.href}
                   onClick={() => handleLink(link.href, link.label)}
                   className={cn(
-                    'relative px-3.5 py-1.5 rounded-full text-[13.5px] font-medium transition-colors duration-150',
+                    'relative rounded-full font-medium transition-all duration-200',
+                    isScrolled ? 'px-3 py-1 text-[13px]' : 'px-3.5 py-1.5 text-[13.5px]',
                     active
                       ? 'text-[#6D28D9] font-semibold'
                       : 'text-[#536178] hover:text-[#111111]'
@@ -114,11 +130,14 @@ export const Nav: React.FC<NavProps> = () => {
           </nav>
 
           {/* RIGHT: Cohort 01 Pill + Apply Now CTA + Mobile Toggle */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Cohort 01 · 15 Seats Only pill */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Cohort 01 · 15 Seats Only pill (collapses on scroll for clean reading mode) */}
             <a
               href="#register"
-              className="hidden xl:inline-flex items-center gap-2 rounded-full border border-[#6D28D9]/20 bg-[#F5F0FF] px-3.5 py-1.5 text-[11px] font-mono font-bold text-[#6D28D9] transition-colors hover:bg-[#EDE9FE] active:scale-[0.97]"
+              className={cn(
+                "items-center gap-2 rounded-full border border-[#6D28D9]/20 bg-[#F5F0FF] px-3.5 py-1.5 text-[11px] font-mono font-bold text-[#6D28D9] transition-all duration-300 hover:bg-[#EDE9FE] active:scale-[0.97]",
+                isScrolled ? "hidden" : "hidden xl:inline-flex"
+              )}
             >
               <span className="relative flex h-[7px] w-[7px]">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#6EC000] opacity-80" />
@@ -133,8 +152,11 @@ export const Nav: React.FC<NavProps> = () => {
               variant="primary"
               size="sm"
               trackingName="nav_apply"
-              icon={<ArrowRight className="w-3.5 h-3.5 text-black" />}
-              className="hidden sm:inline-flex rounded-full px-5 py-2.5 text-[13.5px] font-bold shadow-[0_4px_16px_rgba(110,192,0,0.36)] hover:shadow-[0_6px_20px_rgba(110,192,0,0.45)]"
+              icon={<ArrowRight className={cn("transition-transform text-black", isScrolled ? "w-3 h-3" : "w-3.5 h-3.5")} />}
+              className={cn(
+                "hidden sm:inline-flex rounded-full font-bold shadow-[0_4px_16px_rgba(110,192,0,0.36)] hover:shadow-[0_6px_20px_rgba(110,192,0,0.45)] transition-all duration-300",
+                isScrolled ? "px-4 py-2 text-[12.5px]" : "px-5 py-2.5 text-[13.5px]"
+              )}
             >
               Apply now
             </Button>
@@ -144,7 +166,10 @@ export const Nav: React.FC<NavProps> = () => {
               type="button"
               onClick={() => setMobileMenuOpen(o => !o)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-              className="lg:hidden h-10 w-10 rounded-full border border-slate-200 bg-white flex items-center justify-center text-[#111111] shadow-2xs transition-all hover:bg-slate-50 active:scale-[0.94]"
+              className={cn(
+                "lg:hidden rounded-full border border-slate-200 bg-white flex items-center justify-center text-[#111111] shadow-2xs transition-all hover:bg-slate-50 active:scale-[0.94]",
+                isScrolled ? "h-9 w-9" : "h-10 w-10"
+              )}
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>

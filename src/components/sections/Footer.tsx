@@ -1,9 +1,9 @@
 import React from 'react';
-import { Mail, MessageCircle, Instagram, Heart } from 'lucide-react';
+import { Mail, MessageCircle, Instagram } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { SITE_CONTENT } from '../../content/content';
 import { trackEvent } from '../../lib/analytics';
-import whiteIcon from '../../assets/06_speakup-icon-1024-white.png';
+import footerLogo from '../../assets/speakup-logo-footer-white.png';
 
 export interface FooterProps {
   onOpenPrivacy: () => void;
@@ -36,20 +36,17 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pb-12 border-b border-white/10">
           {/* Brand & Mission (5 cols) */}
           <div className="md:col-span-5 flex flex-col items-start">
-            <div className="flex items-center gap-3">
+            <a
+              href="#"
+              className="inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6EC000] rounded-lg"
+              aria-label="SPEAKUP Home"
+            >
               <img
-                src={whiteIcon}
-                alt="SPEAKUP Icon"
-                className="w-9 h-9 object-contain"
+                src={footerLogo}
+                alt="SPEAKUP — find your voice own your words"
+                className="h-10 sm:h-12 w-auto object-contain"
               />
-              <span className="font-display font-black text-2xl text-white tracking-tight">
-                SPEAKUP
-              </span>
-            </div>
-
-            <p className="mt-2 text-xs font-mono tracking-wider text-violet-300">
-              find your voice · own your words
-            </p>
+            </a>
 
             <p className="mt-4 text-sm text-violet-200/90 leading-relaxed max-w-sm font-normal">
               <strong className="text-white block font-medium">A ZLAQA AI Labs program</strong>
@@ -154,12 +151,8 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         {/* Bottom Copyright */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-violet-300">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center text-center text-xs font-mono text-violet-300">
           <p>{SITE_CONTENT.footer.copyright}</p>
-          <p className="flex items-center gap-1.5">
-            <span>Built with care by ZLAQA AI Labs</span>
-            <Heart className="w-3.5 h-3.5 text-[#6EC000] fill-current" />
-          </p>
         </div>
       </Container>
     </footer>

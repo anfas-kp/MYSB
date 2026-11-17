@@ -488,25 +488,6 @@ export const Registration: React.FC<RegistrationProps> = ({
 
                   <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#6EC000]" />
-                    <span>Direct WhatsApp confirmation with Zlaqa Team</span>
-                  </div>
-                </div>
-
-                {/* ── SUBMIT BUTTON & TRUST FOOTER ────────────────────────────── */}
-                <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    loading={isSubmitting}
-                    icon={<ArrowRight className="w-4 h-4 text-black" />}
-                    className="w-full sm:w-auto px-9 py-3.5 text-sm font-bold shadow-md shadow-[#6EC000]/25 rounded-xl"
-                  >
-                    Send my application
-                  </Button>
-
-                  <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#6EC000]" />
                     <span>Direct WhatsApp confirmation with Anfaz</span>
                   </div>
                 </div>
