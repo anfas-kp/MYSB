@@ -12,6 +12,18 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
 
 [[redirects]]
+  from = "/apply"
+  to = "/#register"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/apply/"
+  to = "/#register"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200

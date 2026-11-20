@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import { Nav } from './components/ui/Nav';
 import { StickyBar } from './components/ui/StickyBar';
@@ -20,7 +20,7 @@ import { useSeatCount } from './hooks/useSeatCount';
 import { useReducedMotion } from './hooks/useReducedMotion';
 
 export function App() {
-  const [, setPreloaderDone] = useState(false);
+  const [preloaderDone, setPreloaderDone] = useState(false);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [legalModal, setLegalModal] = useState<'privacy' | 'terms' | null>(null);
   const [toastInfo, setToastInfo] = useState<{
@@ -32,6 +32,7 @@ export function App() {
 
   const { totalSeats, seatsRemaining, isWaitlist } = useSeatCount();
   const prefersReduced = useReducedMotion();
+  const lenisRef = useRef<Lenis | null>(null);
 
   // Ensure light mode is clean and clear any legacy theme preference
   useEffect(() => {
@@ -57,6 +58,7 @@ export function App() {
       wheelMultiplier: 1,
       touchMultiplier: 2,
     });
+    lenisRef.current = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -67,8 +69,37 @@ export function App() {
 
     return () => {
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, [prefersReduced]);
+
+  // Handle URL redirect/deep-link to registration section (e.g. speak.zlaqa.com/apply -> #register)
+  useEffect(() => {
+    const pathname = window.location.pathname.replace(/\/+$/, '');
+    const isApplyPath = pathname === '/apply';
+    const hasRegisterHash = window.location.hash === '#register';
+
+    if (isApplyPath || hasRegisterHash) {
+      if (isApplyPath) {
+        window.history.replaceState(null, '', '/#register');
+      }
+
+      if (preloaderDone) {
+        const timer = setTimeout(() => {
+          const registerEl = document.getElementById('register');
+          if (registerEl) {
+            if (lenisRef.current) {
+              lenisRef.current.scrollTo(registerEl, { offset: -24, duration: 1.2 });
+            } else {
+              registerEl.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        }, 120);
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [preloaderDone]);
 
   return (
     <div className="relative min-h-screen bg-white text-ink-900 selection:bg-[#F1F9E4] selection:text-[#3F7300]">
