@@ -22,7 +22,7 @@ export const OfflineEvents: React.FC = () => {
     <section 
       id="pricing" 
       aria-label="Pricing, Meetups and Safety"
-      className="relative scroll-mt-32 sm:scroll-mt-40 pt-28 pb-20 sm:pt-36 sm:pb-28 bg-gradient-to-b from-white via-[#FBF9FE] to-white overflow-hidden"
+      className="relative scroll-mt-24 sm:scroll-mt-28 pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14 bg-gradient-to-b from-white via-[#FBF9FE] to-white overflow-hidden"
     >
       {/* ── CONTINUOUS STORYTELLING BACKDROP ─────────────────────────────────── */}
       <AmbientGlow
@@ -46,7 +46,7 @@ export const OfflineEvents: React.FC = () => {
 
       <Container size="wide" className="relative z-10 max-w-5xl">
         {/* ══ Part 1: Meetup and Talks ══ */}
-        <div className="mb-20 sm:mb-24">
+        <div className="mb-12 sm:mb-16">
           <div className="max-w-2xl mb-8">
             <div className="inline-flex items-center gap-2 mb-4 font-mono text-xs font-bold text-[#6D28D9] tracking-widest uppercase">
               <span className="w-2 h-2 rounded-full bg-[#6EC000] flex-shrink-0" />
@@ -208,7 +208,7 @@ export const OfflineEvents: React.FC = () => {
           {/* ═══════════════════════════════════════════════════════════════════════
               REFERRAL TICKET VOUCHER (INSPIRED BY STABLE MONEY PHYSICAL TICKET)
              ═══════════════════════════════════════════════════════════════════════ */}
-          <div className="relative p-3.5 sm:p-5 rounded-[36px] sm:rounded-[44px] bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] shadow-[0_24px_60px_rgba(109,40,217,0.28)] overflow-hidden group">
+          <div id="referral-voucher" className="relative scroll-mt-28 sm:scroll-mt-36 p-3.5 sm:p-5 rounded-[36px] sm:rounded-[44px] bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] shadow-[0_24px_60px_rgba(109,40,217,0.28)] overflow-hidden group">
             
             {/* Playful Floating Confetti Dots & Ribbons (Stable Money aesthetic) */}
             <div aria-hidden="true" className="absolute top-4 left-8 w-2.5 h-2.5 rounded-sm bg-[#6EC000] rotate-45 opacity-80 pointer-events-none" />
@@ -220,7 +220,7 @@ export const OfflineEvents: React.FC = () => {
             <div aria-hidden="true" className="absolute bottom-4 left-1/3 w-1.5 h-1.5 rounded-full bg-[#6EC000] opacity-70 pointer-events-none" />
 
             {/* THE PHYSICAL WHITE TICKET WITH PUNCH-HOLE NOTCHES */}
-            <div className="relative rounded-[28px] sm:rounded-[36px] bg-white border border-slate-100 shadow-[0_12px_36px_rgba(0,0,0,0.10)] p-6 sm:p-8 lg:p-10 overflow-hidden">
+            <div className="relative rounded-[28px] sm:rounded-[36px] bg-white border border-slate-100 shadow-[0_12px_36px_rgba(0,0,0,0.10)] p-6 sm:p-8 lg:p-9 overflow-hidden">
               
               {/* Left Ticket Punch Hole (Inward Semi-Circular Scoop) */}
               <div 
@@ -234,10 +234,10 @@ export const OfflineEvents: React.FC = () => {
                 className="absolute -right-4 sm:-right-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#6D28D9] border-l-2 border-slate-200/60 shadow-[inset_3px_0_6px_rgba(0,0,0,0.18)] z-20 pointer-events-none" 
               />
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10 px-2 sm:px-4">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center relative z-10">
                 
                 {/* ── LEFT TICKET BODY (7 cols on lg) ─────────────────────────────── */}
-                <div className="lg:col-span-7 space-y-4 pr-0 lg:pr-4">
+                <div className="lg:col-span-7 space-y-4 pr-0 lg:pr-6">
                   
                   {/* Brand Kicker / Header */}
                   <div className="flex items-center gap-3">
@@ -263,7 +263,7 @@ export const OfflineEvents: React.FC = () => {
 
                   {/* Subtext below separator */}
                   <p className="text-sm sm:text-[14.5px] text-[#536178] leading-relaxed font-normal">
-                    Connect another person who stammers to SPEAKUP. When they enroll, your cohort fee drops from ₹339 to just <strong className="text-[#111111] font-extrabold underline decoration-[#6EC000] underline-offset-4">₹140</strong> — and they save ₹199 on their first cohort booking.
+                    Connect another person who stammers to SPEAKUP. When they enroll, your cohort fee drops from ₹449 to just <strong className="text-[#111111] font-extrabold underline decoration-[#6EC000] underline-offset-4">₹250</strong> — and they save ₹199 on their first cohort booking.
                   </p>
 
                   {/* Dual Savings Pills */}
@@ -484,13 +484,13 @@ export const OfflineEvents: React.FC = () => {
                   </div>
 
                   {/* Claim Action Button & Micro-Copy (Strictly Centered on the Same Axis as 3D Box) */}
-                  <div className="w-full flex flex-col items-center justify-center gap-2 text-center">
+                  <div className="w-full max-w-[260px] sm:max-w-[270px] flex flex-col items-center justify-center gap-2 text-center mx-auto">
                     <a
                       href="#register"
-                      className="w-full sm:w-auto min-w-[240px] inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-2xl bg-[#6EC000] hover:bg-[#62AD00] text-black font-extrabold text-sm sm:text-base border border-black/15 shadow-[0_4px_16px_rgba(110,192,0,0.35)] active:scale-[0.98] transition-all whitespace-nowrap cursor-pointer"
+                      className="w-full inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3.5 rounded-2xl bg-[#6EC000] hover:bg-[#62AD00] text-black font-extrabold text-sm sm:text-[15px] border border-black/15 shadow-[0_4px_16px_rgba(110,192,0,0.35)] active:scale-[0.98] transition-all whitespace-nowrap cursor-pointer text-center"
                     >
                       <span>Claim Referral Discount</span>
-                      <ArrowRight className="w-4 h-4 text-black transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="w-4 h-4 text-black flex-shrink-0 transition-transform group-hover:translate-x-1" />
                     </a>
                     <span className="font-mono text-[11px] text-slate-400 text-center block w-full">
                       Apply voucher code in WhatsApp

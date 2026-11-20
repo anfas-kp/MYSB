@@ -110,7 +110,7 @@ export const Numbers: React.FC = () => {
     <section 
       id="numbers"
       aria-label="Program Constraints and Numbers"
-      className="relative scroll-mt-32 sm:scroll-mt-40 pt-28 pb-20 sm:pt-36 sm:pb-24 bg-gradient-to-b from-[#FAF8FF] via-white to-white overflow-hidden select-none"
+      className="relative scroll-mt-24 sm:scroll-mt-28 pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14 bg-gradient-to-b from-[#FAF8FF] via-white to-white overflow-hidden select-none"
     >
       {/* ── CONTINUOUS STORYTELLING BACKDROP ─────────────────────────────────── */}
       <AmbientGlow
@@ -127,7 +127,7 @@ export const Numbers: React.FC = () => {
 
       <Container size="wide" className="relative z-10 max-w-6xl">
         {/* Architectural Section Header */}
-        <div className="max-w-2xl mb-12 sm:mb-16 text-left">
+        <div className="max-w-2xl mb-8 sm:mb-10 text-left">
           <div className="inline-flex items-center gap-2 mb-4 font-mono text-xs font-bold text-[#6D28D9] tracking-widest uppercase">
             <span className="w-2 h-2 rounded-full bg-[#6EC000] flex-shrink-0" />
             <span>The Philosophy of Small Numbers</span>

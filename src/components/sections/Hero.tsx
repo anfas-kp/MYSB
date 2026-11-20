@@ -163,7 +163,7 @@ export const Hero: React.FC<HeroProps> = (_props) => {
                 <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-[#6EC000]" />
               </span>
               <span className="font-mono text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.13em] text-[#6D28D9]">
-                COHORT 01 STARTS 23 NOVEMBER 2026 · STRICTLY 15 SEATS
+                COHORT 01 NOVEMBER · STRICTLY 15 SEATS
               </span>
             </motion.div>
 
@@ -250,7 +250,7 @@ export const Hero: React.FC<HeroProps> = (_props) => {
                 Apply now
               </Button>
               <a
-                href="#journey"
+                href="#daily-rhythm"
                 className="inline-flex items-center gap-2 rounded-full border border-[#6D28D9]/35 bg-white px-5 py-2.5 text-[14.5px] font-semibold text-[#6D28D9] shadow-sm transition-all duration-150 hover:border-[#6D28D9] hover:bg-[#F5F0FF] active:scale-[0.97]"
               >
                 How it works
@@ -454,7 +454,7 @@ export const Hero: React.FC<HeroProps> = (_props) => {
                 color: '#6D28D9',
               },
               {
-                value: '₹339 / ₹449',
+                value: '₹449',
                 label: 'COHORT FEE',
                 color: '#5EB700',
               },

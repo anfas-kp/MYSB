@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, MessageCircle } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { SITE_CONTENT } from '../../content/content';
@@ -9,7 +9,7 @@ import { PaperWaveTransition } from '../ui/PaperWaveTransition';
 
 export const ClosingBand: React.FC = () => {
   return (
-    <section id="closing-cta" className="relative pt-36 sm:pt-44 lg:pt-48 pb-24 sm:pb-28 lg:pb-32 bg-gradient-to-br from-[#4C1D95] via-[#3B0764] to-[#2E1065] text-white overflow-hidden">
+    <section id="closing-cta" className="relative pt-24 sm:pt-28 lg:pt-32 pb-14 sm:pb-16 lg:pb-20 bg-gradient-to-br from-[#4C1D95] via-[#3B0764] to-[#2E1065] text-white overflow-hidden">
       {/* Top Transition: Smooth Grand Layered Waves into Deep Violet */}
       <div className="absolute top-0 left-0 right-0 pointer-events-none select-none z-10 -mt-1 opacity-95">
         <PaperWaveTransition position="top" variant="faq-to-footer" />
@@ -88,24 +88,6 @@ export const ClosingBand: React.FC = () => {
               <MessageCircle className="w-4 h-4 text-[#6EC000]" />
               <span>Questions?</span>
             </a>
-          </motion.div>
-
-          {/* Key dates note */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs sm:text-sm font-medium text-violet-200/90 tracking-wide text-center"
-          >
-            <span className="inline-flex items-center gap-1.5 text-white/95">
-              <Sparkles className="w-3.5 h-3.5 text-[#6EC000] shrink-0" />
-              <span>Apply by 19 November</span>
-            </span>
-            <span className="hidden sm:inline text-violet-400/60">•</span>
-            <span>Orientation 21 November</span>
-            <span className="hidden sm:inline text-violet-400/60">•</span>
-            <span className="text-white/90">Program starts 23 November</span>
           </motion.div>
         </div>
       </Container>

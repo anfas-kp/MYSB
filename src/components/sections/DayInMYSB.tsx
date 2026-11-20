@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Smartphone, Users, Moon, ArrowRight, CheckCircle2, Clock, Sparkles } from 'lucide-react';
+import { Smartphone, Users, Moon, CheckCircle2, Clock, Sparkles } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { GlassCard } from '../ui/GlassCard';
@@ -14,7 +14,7 @@ export const DayInMYSB: React.FC = () => {
     <section
       id="daily-rhythm"
       aria-label="A Day in SPEAKUP"
-      className="relative scroll-mt-32 sm:scroll-mt-40 pt-28 pb-20 sm:pt-36 sm:pb-28 bg-gradient-to-b from-white via-[#F7FBF4] to-[#FAF8FF] text-[#0B0B0B] overflow-hidden"
+      className="relative scroll-mt-24 sm:scroll-mt-28 pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14 bg-gradient-to-b from-white via-[#F7FBF4] to-[#FAF8FF] text-[#0B0B0B] overflow-hidden"
     >
       {/* ── CONTINUOUS STORYTELLING BACKDROP ─────────────────────────────────── */}
       {/* Soft dual lime-lavender ambient glow harmonizing the two practice modes */}
@@ -39,7 +39,7 @@ export const DayInMYSB: React.FC = () => {
 
       <Container className="relative z-10 max-w-5xl">
         {/* Header */}
-        <div className="max-w-2xl mb-14 text-left">
+        <div className="max-w-2xl mb-8 sm:mb-10 text-left">
           <div className="inline-flex items-center gap-2 mb-4 font-mono text-xs font-bold text-[#6D28D9] tracking-widest uppercase">
             <span className="w-2 h-2 rounded-full bg-[#6EC000] flex-shrink-0" />
             <span>A Day in SPEAKUP</span>
@@ -211,14 +211,6 @@ export const DayInMYSB: React.FC = () => {
                 </p>
               </div>
             </div>
-
-            <a
-              href="#journey"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/90 border border-slate-200 hover:border-[#6D28D9] text-xs font-bold font-mono uppercase tracking-wider text-[#6D28D9] hover:bg-[#F5EFFF] transition-all flex-shrink-0 shadow-2xs"
-            >
-              <span>View 8-Week Curriculum</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
           </GlassCard>
         </div>
       </Container>

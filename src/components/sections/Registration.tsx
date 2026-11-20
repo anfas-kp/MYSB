@@ -188,7 +188,7 @@ export const Registration: React.FC<RegistrationProps> = ({
     <section 
       id="register" 
       aria-label="SPEAKUP Application"
-      className="relative scroll-mt-36 sm:scroll-mt-44 pt-20 sm:pt-28 pb-28 sm:pb-36 bg-gradient-to-b from-[#FAF8FF] via-white to-[#F5EFFF] overflow-hidden"
+      className="relative scroll-mt-24 sm:scroll-mt-28 pt-10 sm:pt-14 lg:pt-16 pb-16 sm:pb-20 lg:pb-24 bg-gradient-to-b from-[#FAF8FF] via-white to-[#F5EFFF] overflow-hidden"
     >
       {/* ── CONTINUOUS STORYTELLING BACKDROP ─────────────────────────────────── */}
       <AmbientGlow
@@ -488,7 +488,7 @@ export const Registration: React.FC<RegistrationProps> = ({
 
                   <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#6EC000]" />
-                    <span>Direct WhatsApp confirmation with Anfaz</span>
+                    <span>Direct WhatsApp confirmation with Zlaqa</span>
                   </div>
                 </div>
               </form>

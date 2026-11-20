@@ -9,7 +9,6 @@ import { Hero } from './components/sections/Hero';
 import { Statement } from './components/sections/Statement';
 import { DayInMYSB } from './components/sections/DayInMYSB';
 import { WhatYouGet } from './components/sections/WhatYouGet';
-import { Journey } from './components/sections/Journey';
 import { Numbers } from './components/sections/Numbers';
 import { OfflineEvents } from './components/sections/OfflineEvents';
 import { FAQ } from './components/sections/FAQ';
@@ -94,9 +93,6 @@ export function App() {
 
         {/* A Day in SPEAKUP */}
         <DayInMYSB />
-
-        {/* 8-Week Journey */}
-        <Journey />
 
         {/* Numbers & Key Stats */}
         <Numbers />

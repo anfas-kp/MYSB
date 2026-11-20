@@ -155,7 +155,7 @@ export const WhatYouGet: React.FC = () => {
     <section
       id="features"
       aria-label="What You Get: Program Inclusions"
-      className="relative scroll-mt-24 sm:scroll-mt-32 pt-8 pb-14 sm:pt-10 sm:pb-16 lg:pt-12 lg:pb-20 bg-white text-[#0B0B0B] overflow-hidden"
+      className="relative scroll-mt-24 sm:scroll-mt-32 pt-8 pb-8 sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12 bg-white text-[#0B0B0B] overflow-hidden"
     >
       {/* ── CONTINUOUS STORYTELLING BACKDROP ─────────────────────────────────── */}
       {/* Ambient Lighting Backdrop */}

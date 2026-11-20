@@ -98,7 +98,6 @@ export const SITE_CONTENT = {
       { label: 'Problem', href: '#problem' },
       { label: 'What You Get', href: '#features' },
       { label: 'A Day in SPEAKUP', href: '#daily-rhythm' },
-      { label: '8-Week Journey', href: '#journey' },
       { label: 'Pricing', href: '#pricing' },
       { label: 'FAQ', href: '#faq' },
     ],

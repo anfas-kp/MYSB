@@ -19,7 +19,7 @@ export const FAQ: React.FC = () => {
     : allItems.filter((item) => item.category === selectedCategory);
 
   return (
-    <section id="faq" className="relative scroll-mt-28 sm:scroll-mt-36 pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24 bg-gradient-to-b from-[#FBF9FE] via-white to-[#F5F3FF] overflow-hidden">
+    <section id="faq" className="relative scroll-mt-24 sm:scroll-mt-28 pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14 bg-gradient-to-b from-[#FBF9FE] via-white to-[#F5F3FF] overflow-hidden">
       {/* ── CONTINUOUS STORYTELLING BACKDROP ─────────────────────────────────── */}
       <AmbientGlow
         variant="lavender"
