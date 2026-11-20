@@ -12,16 +12,14 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
 
 [[redirects]]
-  from = "/apply"
-  to = "/#register"
+  from = "/apply/"
+  to = "/apply"
   status = 301
-  force = true
 
 [[redirects]]
-  from = "/apply/"
-  to = "/#register"
-  status = 301
-  force = true
+  from = "/apply"
+  to = "/index.html"
+  status = 200
 
 [[redirects]]
   from = "/api/*"

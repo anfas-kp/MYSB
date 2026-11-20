@@ -73,15 +73,16 @@ export function App() {
     };
   }, [prefersReduced]);
 
-  // Handle URL redirect/deep-link to registration section (e.g. speak.zlaqa.com/apply -> #register)
+  // Handle /apply route & deep-link: keeps clean "/apply" in the address bar (no "#") and scrolls to registration
   useEffect(() => {
     const pathname = window.location.pathname.replace(/\/+$/, '');
     const isApplyPath = pathname === '/apply';
     const hasRegisterHash = window.location.hash === '#register';
 
     if (isApplyPath || hasRegisterHash) {
-      if (isApplyPath) {
-        window.history.replaceState(null, '', '/#register');
+      // Keep clean URL without '#' symbol (e.g. speak.zlaqa.com/apply)
+      if (hasRegisterHash) {
+        window.history.replaceState(null, '', '/apply');
       }
 
       if (preloaderDone) {
@@ -100,6 +101,26 @@ export function App() {
       }
     }
   }, [preloaderDone]);
+
+  // Clean in-page anchor clicks from "#register" to clean "/apply" without "#"
+  useEffect(() => {
+    const handleHash = () => {
+      if (window.location.hash === '#register') {
+        window.history.replaceState(null, '', '/apply');
+        const registerEl = document.getElementById('register');
+        if (registerEl) {
+          if (lenisRef.current) {
+            lenisRef.current.scrollTo(registerEl, { offset: -24, duration: 1.2 });
+          } else {
+            registerEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }
+    };
+
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-white text-ink-900 selection:bg-[#F1F9E4] selection:text-[#3F7300]">

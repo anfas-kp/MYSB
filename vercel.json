@@ -21,18 +21,6 @@
       ]
     }
   ],
-  "redirects": [
-    {
-      "source": "/apply",
-      "destination": "/#register",
-      "permanent": true
-    },
-    {
-      "source": "/apply/",
-      "destination": "/#register",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
