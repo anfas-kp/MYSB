@@ -128,7 +128,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ isOpen, type, onClose })
                   3. Program Fee Policy
                 </h4>
                 <p>
-                  SPEAKUP has a nominal cohort fee of ₹339 (Standard) or ₹449 (Cohort + Kickoff & Graduation Meetup Passes), and ₹199 with a verified referral. It covers the complete 8-week cohort experience, clinical SLP guidance, and companion app access.
+                  SPEAKUP has a nominal cohort fee of ₹449. It covers the complete 8-week cohort experience, clinical SLP guidance, and companion app access.
                 </p>
 
                 <h4 className="text-lg font-bold text-slate-900 pt-2 font-display">

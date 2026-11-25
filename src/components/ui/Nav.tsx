@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
 import { Button } from './Button';
-import { TopBanner } from './TopBanner';
 import { SITE_CONTENT } from '../../content/content';
 import { cn } from '../../lib/utils';
 import { trackEvent } from '../../lib/analytics';
@@ -15,7 +14,6 @@ export const Nav: React.FC<NavProps> = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection]   = useState<string>('');
   const [isScrolled, setIsScrolled]         = useState(false);
-  const [bannerDismissed, setBannerDismissed] = useState(false);
   const prefersReduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll();
@@ -53,20 +51,11 @@ export const Nav: React.FC<NavProps> = () => {
 
   return (
     <>
-      {/* 00. Top Referral Announcement Banner */}
-      <TopBanner
-        isScrolled={isScrolled}
-        onDismiss={() => setBannerDismissed(true)}
-      />
-
       {/* Reading progress bar */}
       {!prefersReduced && (
         <motion.div
           style={{ scaleX }}
-          className={cn(
-            "fixed left-0 right-0 z-[60] h-[2.5px] origin-left bg-gradient-to-r from-[#6EC000] via-[#6D28D9] to-[#5B21B6] pointer-events-none transition-all duration-300",
-            !isScrolled && !bannerDismissed ? "top-10 sm:top-11" : "top-0"
-          )}
+          className="fixed left-0 right-0 top-0 z-[60] h-[2.5px] origin-left bg-gradient-to-r from-[#6EC000] via-[#6D28D9] to-[#5B21B6] pointer-events-none"
           aria-hidden="true"
         />
       )}
@@ -76,9 +65,7 @@ export const Nav: React.FC<NavProps> = () => {
         'fixed left-0 right-0 top-0 z-40 pointer-events-none px-4 sm:px-6 lg:px-8 transition-all duration-300 ease-out',
         isScrolled 
           ? 'pt-2.5 sm:pt-3' 
-          : !bannerDismissed 
-            ? 'pt-14 sm:pt-16' 
-            : 'pt-4 sm:pt-6'
+          : 'pt-4 sm:pt-6'
       )}>
         <div
           className={cn(

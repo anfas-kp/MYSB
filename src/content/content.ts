@@ -111,7 +111,7 @@ export const SITE_CONTENT = {
     subtext: 'An 8-week speech program for young people who stammer. Ages 15 to 30. Daily practice in the Zlaqa app, weekly live sessions with Speech-Language Pathologists, and a safe community that gets it.',
     primaryCta: 'Apply now',
     secondaryCta: 'How it works',
-    socialProof: 'Mindi Thudangam members: ₹339 · Everyone else: ₹449 · Save ₹199 with referral',
+    socialProof: 'Cohort 01 Fee: ₹449 for the full 8-week program · 15 Seats Only',
   },
 
   statement: {
@@ -439,24 +439,13 @@ export const SITE_CONTENT = {
     subheadline: 'Full 8-week program including weekly SLP sessions, app access, and the in-person meetup.',
     tiers: [
       {
-        name: 'Mindi Thudangam community member',
-        price: '₹339',
-        period: 'Full 8 weeks',
-        description: 'Special subsidized rate for registered members of the Mindi Thudangam community.',
-        isPopular: true,
-      },
-      {
-        name: 'Everyone else',
+        name: 'Cohort 01 Admission',
         price: '₹449',
         period: 'Full 8 weeks',
         description: 'All-inclusive enrollment covering live SLP coaching, app drills, and cohort community.',
-        isPopular: false,
+        isPopular: true,
       }
     ],
-    referral: {
-      headline: 'Bring someone who stammers. You both get ₹199 off.',
-      description: 'Connect another person who stammers to SPEAKUP. When they join, you both save ₹199 on enrollment.',
-    }
   },
 
   safetyAndPrivacy: {
